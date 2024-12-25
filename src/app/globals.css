@@ -1,0 +1,84 @@
+/* globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #fefefe;
+}
+
+::-webkit-scrollbar-track {
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+  border-radius: 10px;
+  background-color: #f8fafc;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f8fafc;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+  background-color: #71717a5c;
+}
+
+/* .fr-box .fr-element {
+  height: 160px;
+  background: #f8fafc;
+  overflow-y: auto;
+}
+
+.fr-toolbar {
+  background: #f8fafc !important;
+}
+
+.fr-second-toolbar {
+  background: #f8fafc !important;
+} */
+
+/* .fr-view,
+.fr-box,
+.fr-wrapper {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.fr-toolbar {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.fr-second-toolbar {
+  border: none !important;
+  box-shadow: none !important;
+} */
+
+.custom-layout {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .custom-layout {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .custom-layout {
+    max-width: 1800px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .custom-layout {
+    max-width: 2200px;
+  }
+}

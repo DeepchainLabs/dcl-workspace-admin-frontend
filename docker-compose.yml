@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  dcl-workspace-frontend:
+    image: dcl-workspace-admin-frontend-img
+    build: .
+    container_name: dcl-workspace-admin-frontend
+    restart: always
+    tty: true
+    # ports:
+    #   - 5016:3000
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+    external: true
