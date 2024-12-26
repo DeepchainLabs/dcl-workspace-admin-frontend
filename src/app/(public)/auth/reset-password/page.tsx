@@ -1,12 +1,9 @@
 import AuthRightImage from "@/components/Auth/AuthRightImage";
 import ResetPasswordForm from "@/components/Auth/ResetPasswordForm";
+import { PageProps } from "@/interfaces/pageProps.interface";
 import React from "react";
 
-export default function ResetPasswordPage({
-  searchParams,
-}: {
-  searchParams: Record<string, string>;
-}) {
+export default function ResetPasswordPage({ searchParams }: PageProps) {
   const user_id = searchParams.user_id || "";
   const code = searchParams.code || "";
   return (
