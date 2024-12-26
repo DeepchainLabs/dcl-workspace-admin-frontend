@@ -1,5 +1,5 @@
 "use client";
-import { handle2FALogin, handleLogin } from "@/app/(auth)/login/actions";
+import { handle2FALogin, handleLogin } from "@/app/(public)/auth/login/actions";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React, { useActionState, useEffect, useState } from "react";
@@ -16,7 +16,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
-  const [state, action] = useActionState(handleLogin, {});
+  const [state, action, isPending] = useActionState(handleLogin, {});
   const [state2FA, action2FA] = useActionState(handle2FALogin, {});
   const [getStarted, setGetStarted] = React.useState(false);
   const [required2FA, setRequired2FA] = React.useState(false);
@@ -87,7 +87,7 @@ export default function LoginForm() {
             <p className="text-[#292D32] text-[16px] font-[500]">
               Login with your existing accounts
             </p>
-            <form onSubmit={submitHandler}>
+            <form action={action}>
               <div className="mt-5">
                 <label
                   htmlFor="email"
@@ -191,12 +191,12 @@ export default function LoginForm() {
               <button
                 type="submit"
                 className={`mt-6 bg-[#2377FC] rounded-[8px] w-full h-[42px] ${
-                  pending ? "opacity-50" : ""
+                  isPending ? "opacity-50" : ""
                 }`}
-                disabled={pending}
+                disabled={isPending}
               >
                 <p className="text-[#FFFFFF] font-[500] text-[16px]">
-                  {pending ? "Login..." : "Login"}
+                  {isPending ? "Login..." : "Login"}
                 </p>
               </button>
             </form>

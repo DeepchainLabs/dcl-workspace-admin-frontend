@@ -1,10 +1,8 @@
 "use client";
-
-import { handleLogin } from "@/app/(public)/auth/login/actions";
 import { handleReset } from "@/app/(public)/auth/reset-password/actions";
 import { redirect } from "next/navigation";
-import React, { use, useEffect } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import React, { use, useActionState, useEffect } from "react";
+import { useFormStatus } from "react-dom";
 import toast from "react-hot-toast";
 
 export default function ResetPasswordForm({
@@ -15,7 +13,7 @@ export default function ResetPasswordForm({
   code: string;
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
-  const [state, action] = useFormState(handleReset, {});
+  const [state, action] = useActionState(handleReset, {});
 
   useEffect(() => {
     if (state.error) toast.error(state.error);

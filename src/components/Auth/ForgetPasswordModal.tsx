@@ -1,4 +1,4 @@
-import { handleSendResetPasswordEmail } from "@/app/(auth)/login/actions";
+import { handleSendResetPasswordEmail } from "@/app/(public)/auth/login/actions";
 import React, { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import toast from "react-hot-toast";

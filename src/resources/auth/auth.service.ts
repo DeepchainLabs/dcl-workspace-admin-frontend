@@ -10,7 +10,7 @@ export const login = async (data: {
 }) =>
   await getFetch(
     {
-      url: "/auth/login",
+      url: "/admin/auth/login",
       method: "post",
       data,
     },
@@ -28,7 +28,7 @@ export const login2FA = async (data: {
 }) =>
   await getFetch(
     {
-      url: "/auth/login",
+      url: "/admin/auth/login",
       method: "post",
       data,
     },
@@ -39,6 +39,17 @@ export const login2FA = async (data: {
     })
   );
 
+export const logout = async () =>
+  await getFetch(
+    {
+      url: "/admin/auth",
+      method: "delete",
+    },
+    z.object({
+      message: z.string(),
+    })
+  );
+
 export const resetPassword = async (data: {
   userId: string;
   code: string;
@@ -46,7 +57,7 @@ export const resetPassword = async (data: {
   confirmNewPassword: string;
 }) =>
   await getFetch(
-    { url: "/auth/reset-password", method: "post", data },
+    { url: "/admin/auth/reset-password", method: "post", data },
     z.object({
       token: z.string(),
     })
@@ -57,7 +68,7 @@ export const sendResetPasswordEmail = async (data: {
   client_url: string;
 }) =>
   await getFetch(
-    { url: "/auth/send-password-reset-mail", method: "post", data },
+    { url: "/admin/auth/send-password-reset-mail", method: "post", data },
     z.object({
       token: z.string(),
     })
@@ -65,7 +76,7 @@ export const sendResetPasswordEmail = async (data: {
 
 export const getLoggedInUser = async () => {
   const res = await getFetch(
-    { url: "/auth/me" },
+    { url: "/admin/auth/me" },
     z.object({
       id: z.string(),
       username: z.string(),
@@ -77,7 +88,7 @@ export const getLoggedInUser = async () => {
 
 export const getUsersMe = async () => {
   const res = await getFetch(
-    { url: "/users/me", method: "get", tags: ["users_me"] },
+    { url: "/admin/users/me", method: "get", tags: ["users_me"] },
     z.object({
       _id: z.string(),
       first_name: z.string(),
@@ -93,7 +104,7 @@ export const getUsersMe = async () => {
 
 export const initiate2FA = async () => {
   const res = await getFetch(
-    { url: "/auth/initiate-2fa-registration" },
+    { url: "/admin/auth/initiate-2fa-registration" },
     z.object({
       secret: z.string(),
       qrCodeUrl: z.string(),
@@ -104,7 +115,7 @@ export const initiate2FA = async () => {
 
 export const regster2FA = async (data: { secret: string; code: string }) => {
   const res = await getFetch(
-    { url: "/auth/register-2fa", method: "post", data },
+    { url: "/admin/auth/register-2fa", method: "post", data },
     z.object({
       message: z.string(),
     })
@@ -115,7 +126,7 @@ export const regster2FA = async (data: { secret: string; code: string }) => {
 
 export const toggle2FA = async () => {
   const res = await getFetch(
-    { url: "/auth/toggle-require-2fa-for-login", method: "patch" },
+    { url: "/admin/auth/toggle-require-2fa-for-login", method: "patch" },
     z.object({
       message: z.string(),
     })
