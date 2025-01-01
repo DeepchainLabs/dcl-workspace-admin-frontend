@@ -57,7 +57,7 @@ export default function SubscriptionPlans() {
     <div>
       <div className="border-b border-[#E5E9EB] min-h-[76px]">
         <div className="custom-layout py-4 pb-0">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-0">
             <h1 className="text-[20px] sm:text-[24px] font-[700] text-[#292D32]">
               Subscription
             </h1>
@@ -84,14 +84,14 @@ export default function SubscriptionPlans() {
               Personal
             </div>
           </div>
-          <div>
+          {/* <div>
             <Link href={"./subscription/create-plan"}>
-              <button className="flex items-center justify-center w-full sm:w-auto px-3 py-2 text-[14px] font-[600] bg-[#2377FC]               text-white rounded-[8px] gap-2">
+              <button className="flex items-center justify-center w-full sm:w-auto px-3 py-2 text-[14px] font-[600] bg-[#2377FC] text-white rounded-[8px] gap-2">
                 <AddButtonPlusIcon />
                 Add Plan
               </button>
             </Link>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex justify-center xl:justify-start gap-4">

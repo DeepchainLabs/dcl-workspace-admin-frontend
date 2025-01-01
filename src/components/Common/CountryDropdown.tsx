@@ -1,5 +1,6 @@
 "use client";
 import { DropDownSVG } from "@/svg/survey-tools/SurveyPageSvg";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 interface CountryOption {
@@ -61,7 +62,7 @@ const CountryDropdown: React.FC<CountryDropdownProps> = ({
   };
 
   return (
-    <div className="relative mt-5" style={{ width}}>
+    <div className="relative mt-5" style={{ width }}>
       <input type="hidden" name={name} value={selectedOption?.code || ""} />
       <div
         className={`border-[2px] rounded-[8px] py-5 px-4 flex justify-between items-center bg-[#FFFFFF] cursor-pointer ${
@@ -73,7 +74,7 @@ const CountryDropdown: React.FC<CountryDropdownProps> = ({
         <div className="flex items-center gap-2 py-4">
           {selectedOption ? (
             <>
-              <img
+              <Image
                 src={selectedOption.flag}
                 alt={`${selectedOption.name} Flag`}
                 className="w-5 h-5 rounded-full"
@@ -103,7 +104,7 @@ const CountryDropdown: React.FC<CountryDropdownProps> = ({
               className="flex items-center gap-3 py-2 px-4 cursor-pointer border-b-[0.5px] border-[#E5E9EB] hover:bg-[#F0F5FF] transition-all"
               onClick={() => handleOptionClick(option)}
             >
-              <img
+              <Image
                 src={option.flag}
                 alt={`${option.name} Flag`}
                 className="w-5 h-5 rounded-full"
