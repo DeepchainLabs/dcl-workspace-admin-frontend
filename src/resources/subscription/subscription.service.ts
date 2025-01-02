@@ -13,7 +13,7 @@ export const getSpacePlans = async (type?: string) => {
     type === "monthly" ? SubscriptionPeriod.MONTHLY : SubscriptionPeriod.YEARLY;
   const res = await getFetch(
     {
-      url: `/subscriptions?subscription_period=${period}&sort=price`,
+      url: `/subscriptions?sort=price`,
       method: "get",
     },
     z.array(PlanSchema)

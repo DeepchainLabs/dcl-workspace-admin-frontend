@@ -16,16 +16,15 @@ export default async function ClientManagement({ searchParams }: PageProps) {
         </div>
       </div>
       <div className="py-6 h-[calc(100vh-155px)] overflow-y-auto custom-layout">
-        <div className="flex justify-start flex-wrap gap-4">
-          {clientData.map((card, index) => {
-            return (
-              <ClientCard key={index} name={card.name} count={card.count} />
-            );
-          })}
-        </div>
-
-        <div className="mt-6">
+        <div className="mt-0">
           <ClientListTableHeader />
+          <div className="flex justify-start flex-wrap gap-4 mt-8">
+            {clientData.map((card, index) => {
+              return (
+                <ClientCard key={index} name={card.name} count={card.count} />
+              );
+            })}
+          </div>
           {tab === "personal" && <ClientListTable />}
           {tab === "workspace" && <WorkspaceListTable />}
         </div>

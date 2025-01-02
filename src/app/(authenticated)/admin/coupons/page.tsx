@@ -4,7 +4,7 @@ import CouponTable from "@/components/Coupons/CouponTable";
 import { couponData } from "@/contents/Admin/Coupons/Data";
 import React from "react";
 
-function Coupons() {
+async function Coupons() {
   return (
     <div className="">
       <div className="border-b border-[#E5E9EB] h-[70px] px-4 lg:px-8">
