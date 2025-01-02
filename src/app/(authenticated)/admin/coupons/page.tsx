@@ -1,6 +1,6 @@
-import SortAndAddCoupons from "@/components/Admin/Coupons/AddCouponButton";
-import CouponCard from "@/components/Admin/Coupons/CouponCard";
-import CouponTable from "@/components/Admin/Coupons/CouponTable";
+import SortAndAddCoupons from "@/components/Coupons/AddCouponButton";
+import CouponCard from "@/components/Coupons/CouponCard";
+import CouponTable from "@/components/Coupons/CouponTable";
 import { couponData } from "@/contents/Admin/Coupons/Data";
 import React from "react";
 

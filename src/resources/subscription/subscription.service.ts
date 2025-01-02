@@ -8,7 +8,7 @@ enum SubscriptionPeriod {
   YEARLY = "YEARLY",
 }
 
-export const getSpacePlans = async (type: string) => {
+export const getSpacePlans = async (type?: string) => {
   const period =
     type === "monthly" ? SubscriptionPeriod.MONTHLY : SubscriptionPeriod.YEARLY;
   const res = await getFetch(

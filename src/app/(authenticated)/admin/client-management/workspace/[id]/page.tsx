@@ -1,8 +1,8 @@
-import CloudStorageInsightGraph from "@/components/Admin/ClientManagement/Workspace/CloudStorageInsight";
-import CloudStorageTable from "@/components/Admin/ClientManagement/Workspace/CloudStorageTable";
-import InformationCard from "@/components/Admin/ClientManagement/Workspace/InformationCard";
-import PaymentHistoryTable from "@/components/Admin/ClientManagement/Workspace/PaymentHistoryTable";
-import WorkspaceToggle from "@/components/Admin/ClientManagement/Workspace/WorkspaceToggle";
+import CloudStorageInsightGraph from "@/components/ClientManagement/Workspace/CloudStorageInsight";
+import CloudStorageTable from "@/components/ClientManagement/Workspace/CloudStorageTable";
+import InformationCard from "@/components/ClientManagement/Workspace/InformationCard";
+import PaymentHistoryTable from "@/components/ClientManagement/Workspace/PaymentHistoryTable";
+import WorkspaceToggle from "@/components/ClientManagement/Workspace/WorkspaceToggle";
 import { cards, paymentHistory } from "@/contents/Admin/Workspace";
 import BlockUserSvg from "@/svg/Admin/BlockUserSvg";
 import React from "react";
@@ -85,7 +85,15 @@ function WorkspaceDetails() {
 
         <div className="mt-6 grid my-auto justify-center md:justify-start grid-cols-[repeat(auto-fit,_minmax(240px,_1fr))] gap-6">
           {cards.map((card, index) => {
-            return <InformationCard key={index} name={card.name} limit={card?.limit} used={card.used} icon={card.icon}/>
+            return (
+              <InformationCard
+                key={index}
+                name={card.name}
+                limit={card?.limit}
+                used={card.used}
+                icon={card.icon}
+              />
+            );
           })}
         </div>
 
@@ -98,7 +106,7 @@ function WorkspaceDetails() {
           </div>
         </div>
         <div className="mt-6">
-          <PaymentHistoryTable paymentHistory={paymentHistory}/>
+          <PaymentHistoryTable paymentHistory={paymentHistory} />
         </div>
       </div>
     </div>

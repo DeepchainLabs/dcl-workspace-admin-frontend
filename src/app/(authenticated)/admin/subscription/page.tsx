@@ -1,57 +1,25 @@
-"use client";
-import SubscriptionCardOrganization from "@/components/Admin/Subscription/SubscriptionCardOrganization";
-import ConfirmDeleteModal from "@/components/Common/ConfirmDeleteModal";
-import DeleteModal from "@/components/Common/DeleteModal";
-import { AddButtonPlusIcon } from "@/svg/Crms/CommonIcons";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { plans } from "@/contents/Admin/Subscription/SubscriptionContents";
+import React from "react";
+import Tab from "@/components/Subscription/Tab";
+import { PageProps } from "@/interfaces/pageProps.interface";
+import { getSpacePlans } from "@/resources/subscription/subscription.service";
+import { extractError } from "@/utils/errors.utils";
+import ErrorAllert from "@/components/Common/ErrorAllert";
+import SubscriptionCard from "@/components/Subscription/SubscriptionCard";
 
-export default function SubscriptionPlans() {
-  const [activeTab, setActiveTab] = useState<"organization" | "personal">(
-    "organization"
-  );
-  const [subscriptions, setSubscriptions] = useState(plans);
-  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
-    useState(false);
+export default async function SubscriptionPlans({ searchParams }: PageProps) {
+  // const activeTab = searchParams.type || "monthly";
 
-  const router = useRouter();
+  const plans = await getSpacePlans("monthly").catch((error) => {
+    return extractError(error);
+  });
+  if (typeof plans === "string")
+    return (
+      <div className="m-4">
+        <ErrorAllert message={plans} />
+      </div>
+    );
 
-  const handleTabChange = (tab: "organization" | "personal") => {
-    setActiveTab(tab);
-    router.push(`/admin/subscription/?subscription-type=${tab}`);
-  };
-
-  const handleEdit = (id: string) => {
-    router.push(`/admin/subscription/edit-plan/${id}`);
-  };
-
-  const handleDelete = (id: string) => {
-    setSelectedPlanId(id);
-    setIsDeleteModalOpen(true);
-  };
-
-  const handleDeleteConfirmed = () => {
-    setIsDeleteModalOpen(false);
-    setIsConfirmDeleteModalOpen(true);
-  };
-
-  const confirmDelete = () => {
-    if (selectedPlanId) {
-      setSubscriptions((prevSubscriptions) => {
-        const updatedPlans = { ...prevSubscriptions };
-        updatedPlans[activeTab] = updatedPlans[activeTab].filter(
-          (plan) => plan.id !== selectedPlanId
-        );
-        return updatedPlans;
-      });
-      setIsConfirmDeleteModalOpen(false);
-      setSelectedPlanId(null);
-    }
-  };
+  console.log("plans", plans);
 
   return (
     <div>
@@ -65,64 +33,16 @@ export default function SubscriptionPlans() {
         </div>
       </div>
       <div className="custom-layout h-[calc(100vh-155px)] overflow-y-auto space-y-8 bg-white">
-        <div className="relative flex flex-col sm:flex-row mt-6 mb-6 justify-between w-full gap-4">
-          <div className="bg-[#EAEEF5] w-full sm:w-[75%] md:w-[70%] lg:w-[60%] xl:w-[50%] min-h-[40px] grid grid-cols-1 sm:grid-cols-2 rounded-[6px] p-1 text-center">
-            <div
-              onClick={() => handleTabChange("organization")}
-              className={`text-[#000000] text-[14px] font-[600] px-4 py-1.5 rounded-[4px] cursor-pointer ${
-                activeTab === "organization" ? "bg-[#FFFFFF]" : ""
-              }`}
-            >
-              Organization
-            </div>
-            <div
-              onClick={() => handleTabChange("personal")}
-              className={`text-[#000000] text-[14px] font-[600] px-4  py-1.5 rounded-[4px] cursor-pointer ${
-                activeTab === "personal" ? "bg-[#FFFFFF]" : ""
-              }`}
-            >
-              Personal
-            </div>
-          </div>
-          {/* <div>
-            <Link href={"./subscription/create-plan"}>
-              <button className="flex items-center justify-center w-full sm:w-auto px-3 py-2 text-[14px] font-[600] bg-[#2377FC] text-white rounded-[8px] gap-2">
-                <AddButtonPlusIcon />
-                Add Plan
-              </button>
-            </Link>
-          </div> */}
-        </div>
+        <Tab />
 
-        <div className="flex justify-center xl:justify-start gap-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            {subscriptions[activeTab].map((plan) => (
-              <SubscriptionCardOrganization
-                data={plan}
-                key={plan.id}
-                onEdit={() => handleEdit(plan.id)}
-                onDelete={() => handleDelete(plan.id)}
-              />
+        <div className="flex gap-6 flex-wrap">
+          {plans &&
+            plans.length > 0 &&
+            plans.map((plan, index) => (
+              <SubscriptionCard data={plan} key={index} />
             ))}
-          </div>
         </div>
       </div>
-
-      {isDeleteModalOpen && (
-        <DeleteModal
-          isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
-          onDelete={handleDeleteConfirmed}
-        />
-      )}
-
-      {isConfirmDeleteModalOpen && (
-        <ConfirmDeleteModal
-          isOpen={isConfirmDeleteModalOpen}
-          onClose={() => setIsConfirmDeleteModalOpen(false)}
-          onConfirm={confirmDelete}
-        />
-      )}
     </div>
   );
 }

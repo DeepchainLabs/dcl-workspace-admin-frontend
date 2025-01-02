@@ -1,3 +1,4 @@
+"use client";
 import { RocketIcon } from "@/svg/Admin/Subscription/SubscriptionIcons";
 import FeatureAvailable from "@/svg/Subscription/FeatureAvailable";
 import FeatureUnavailable from "@/svg/Subscription/FeatureUnavailable";
@@ -35,8 +36,8 @@ interface PlanData {
 
 interface SubscriptionCardProps {
   data: PlanData;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
+  onEdit?: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
 const SubscriptionCardOrganization: React.FC<SubscriptionCardProps> = ({
@@ -58,10 +59,10 @@ const SubscriptionCardOrganization: React.FC<SubscriptionCardProps> = ({
               <div>
                 <ToggleSwitch />
               </div>
-              <div className="cursor-pointer" onClick={() => onEdit(data.id)}>
+              <div className="cursor-pointer">
                 <EditIcon />
               </div>
-              <div className="cursor-pointer" onClick={() => onDelete(data.id)}>
+              <div className="cursor-pointer">
                 <DeleteIcon />
               </div>
             </div>

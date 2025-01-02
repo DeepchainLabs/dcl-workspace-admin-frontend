@@ -1,4 +1,4 @@
-import ClientDetails from "@/components/Admin/ClientManagement/ClientDetails";
+import ClientDetails from "@/components/ClientManagement/ClientDetails";
 import { PageProps } from "@/interfaces/pageProps.interface";
 
 export default async function Details({ searchParams }: PageProps) {

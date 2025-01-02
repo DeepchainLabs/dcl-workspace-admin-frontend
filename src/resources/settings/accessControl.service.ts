@@ -100,8 +100,8 @@ export const assignPermissionToRole = async (data: {
   return res;
 };
 
-export const createRole = (data: { name: string; permissions: [] }) =>
-  getFetch(
+export const createRole = async (data: { name: string; permissions: any[] }) =>
+  await getFetch(
     {
       url: "/roles",
       method: "post",

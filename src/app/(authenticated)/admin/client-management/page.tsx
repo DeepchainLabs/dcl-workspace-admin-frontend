@@ -1,7 +1,7 @@
-import ClientCard from "@/components/Admin/ClientManagement/ClientCard";
-import ClientListTable from "@/components/Admin/ClientManagement/ClientListTable";
-import ClientListTableHeader from "@/components/Admin/ClientManagement/ClientListTableHeader";
-import WorkspaceListTable from "@/components/Admin/ClientManagement/WorkspaceListTable";
+import ClientCard from "@/components/ClientManagement/ClientCard";
+import ClientListTable from "@/components/ClientManagement/ClientListTable";
+import ClientListTableHeader from "@/components/ClientManagement/ClientListTableHeader";
+import WorkspaceListTable from "@/components/ClientManagement/WorkspaceListTable";
 import { clientData } from "@/contents/Admin/Workspace";
 import { PageProps } from "@/interfaces/pageProps.interface";
 import React from "react";

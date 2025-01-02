@@ -1,7 +1,7 @@
-import Card from "@/components/Admin/PlatformManagement/Card";
-import List from "@/components/Admin/PlatformManagement/List";
-import Performance from "@/components/Admin/PlatformManagement/Performance";
-import Resource from "@/components/Admin/PlatformManagement/Resource";
+import Card from "@/components/PlatformManagement/Card";
+import List from "@/components/PlatformManagement/List";
+import Performance from "@/components/PlatformManagement/Performance";
+import Resource from "@/components/PlatformManagement/Resource";
 
 export default function Platformanagement() {
   return (
