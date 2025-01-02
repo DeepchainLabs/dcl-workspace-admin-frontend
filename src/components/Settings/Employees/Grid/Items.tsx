@@ -1,18 +1,30 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import EmployeeDetails from "../EmployeeDetails";
 import UpdateEmployee from "../UpdateEmployee";
 import Image from "next/image";
 import StatusBadge from "@/components/Common/StatusBadge";
+import UpdateEmployeModal from "../UpdateEmployee";
+import { getEmployeeDetails } from "@/resources/settings/employee.service";
 
 export default function Items({ employees }: { employees: any }) {
   const [openDetailsModal, setOpenDetailsModal] = React.useState(false);
   const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
   const [employeeId, setEmployeeId] = React.useState("");
-  const handleUpdate = () => {
+  const [employeeDetails, setEmployeeDetails] = React.useState<any>();
+
+  const handleUpdate = (details: any) => {
     setOpenDetailsModal(false);
     setOpenUpdateModal(true);
   };
+  useEffect(() => {
+    getEmployeeDetails(employeeId)
+      .then((res) => {
+        setEmployeeDetails(res);
+      })
+      .catch((err) => {});
+  }, [employeeId]);
+
   return (
     <div className="flex gap-6 flex-wrap w-full sm:items-start items-center sm:justify-start justify-center">
       {employees.length > 0 &&
@@ -101,17 +113,18 @@ export default function Items({ employees }: { employees: any }) {
       <div>
         {openDetailsModal && (
           <EmployeeDetails
-            salaryDetails={""}
-            employeeId={employeeId}
             show={openDetailsModal}
             setShow={() => setOpenDetailsModal(false)}
-            handleUpdate={handleUpdate}
+            handleUpdate={() => handleUpdate(employeeDetails)}
+            employeeDetails={employeeDetails}
           />
         )}
         {openUpdateModal && (
-          <UpdateEmployee
+          <UpdateEmployeModal
             show={openUpdateModal}
             setShow={() => setOpenUpdateModal(false)}
+            employeeDetails={employeeDetails}
+            setEmployeeDetails={setEmployeeDetails}
           />
         )}
       </div>

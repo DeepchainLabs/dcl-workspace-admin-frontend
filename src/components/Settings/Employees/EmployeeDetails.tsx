@@ -1,70 +1,19 @@
 "use client";
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import ErrorAllert from "@/components/Common/ErrorAllert";
 import Image from "next/image";
-import dayjs from "dayjs";
-import { SalaryDetails, UserProfile } from "./ProfileInterface";
-import { getEmployee } from "@/resources/settings/employee.service";
-
-function isSalaryDetails(response: any): response is SalaryDetails {
-  return (
-    response &&
-    typeof response === "object" &&
-    "_id" in response &&
-    "user" in response &&
-    "currentSalary" in response &&
-    "salary_history" in response &&
-    Array.isArray(response.salary_history)
-  );
-}
-
-async function fetchEmployee(id: string): Promise<UserProfile | null> {
-  try {
-    const response = await getEmployee(id);
-    if (response && typeof response === "object" && "_id" in response) {
-      return response as UserProfile;
-    }
-    throw new Error("Invalid user profile response");
-  } catch (error) {
-    console.error("Error fetching employee:", error);
-    return null;
-  }
-}
-
-async function fetchSalary(id: string): Promise<SalaryDetails | null> {
-  try {
-    const response = await getEmployeeSalary(id);
-    if (isSalaryDetails(response)) {
-      return response;
-    }
-
-    throw new Error("Invalid SalaryDetails response");
-  } catch (error) {
-    console.error("Error fetching salary details:", error);
-    return null;
-  }
-}
 
 export default function EmployeeDetails({
   show,
   setShow,
   handleUpdate,
-  employeeId,
   employeeDetails,
-  salaryDetails,
 }: {
   show: boolean;
   setShow: (value: boolean) => void;
   handleUpdate: () => void;
-  employeeId: string;
   employeeDetails?: any;
-  salaryDetails?: any;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [salaryInfo, setSalary] = useState<SalaryDetails | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -95,37 +44,8 @@ export default function EmployeeDetails({
     };
   }, [modalRef, closeMenu]);
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const data = await fetchEmployee(employeeId);
+  console.log(employeeDetails);
 
-      if (data) {
-        setUserProfile(data);
-        setError(null);
-      } else {
-        setError("Failed to fetch user profile");
-      }
-      setLoading(false);
-    }
-    fetchData();
-  }, [employeeId]);
-
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const data = await fetchSalary(employeeId);
-      if (data) {
-        setSalary(data);
-        setError(null);
-      } else {
-        setError("Failed to fetch user profile");
-      }
-      setLoading(false);
-    }
-    fetchData();
-  }, [employeeId]);
-  if (error) return <ErrorAllert message={error} />;
   return (
     <div
       className="w-[calc(100vw)] h-[calc(100vh)] bg-[#00000026] backdrop-blur-[2px] fixed top-0 left-0 overflow-y-hidden transition-transform duration-500 ease-in-out overflow-x-hidden"
@@ -180,8 +100,6 @@ export default function EmployeeDetails({
                 </p>
                 <div
                   onClick={() => {
-                    salaryDetails(salaryInfo);
-                    employeeDetails(userProfile);
                     handleUpdate();
                   }}
                   className="flex gap-1 bg-[#F0F5FF] rounded-[8px] px-2 py-0.5 cursor-pointer"
@@ -240,7 +158,7 @@ export default function EmployeeDetails({
                       First Name
                     </p>
                     <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {userProfile?.user.first_name}
+                      {employeeDetails?.first_name}
                     </p>
                   </div>
                   <div className="w-full">
@@ -248,7 +166,7 @@ export default function EmployeeDetails({
                       Last Name
                     </p>
                     <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {userProfile?.user.last_name}
+                      {employeeDetails?.last_name}
                     </p>
                   </div>
                 </div>
@@ -258,7 +176,7 @@ export default function EmployeeDetails({
                       Email Address
                     </p>
                     <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {userProfile?.user.email}
+                      {employeeDetails?.email}
                     </p>
                   </div>
                   <div className="w-full">
@@ -266,17 +184,17 @@ export default function EmployeeDetails({
                       Username
                     </p>
                     <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {userProfile?.user.username}
+                      {employeeDetails?.username}
                     </p>
                   </div>
                 </div>
                 <div className="flex justify-between gap-8">
                   <div className="w-full">
                     <p className="text-[#324054] text-[16px] font-[500] mb-2">
-                      Discord ID
+                      Designation
                     </p>
                     <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {userProfile?.discord_id || "N/A"}
+                      {employeeDetails?.designation || "N/A"}
                     </p>
                   </div>
                   <div className="w-full">
@@ -284,17 +202,17 @@ export default function EmployeeDetails({
                       Phone Number
                     </p>
                     <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {userProfile?.user.phone}
+                      {employeeDetails?.phone || "N/A"}
                     </p>
                   </div>
                 </div>
                 <div className="flex justify-between gap-8">
                   <div className="w-full">
                     <p className="text-[#324054] text-[16px] font-[500] mb-2">
-                      Role
+                      Position
                     </p>
                     <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {userProfile?.designation}
+                      {employeeDetails?.position || "N/A"}
                     </p>
                   </div>
                   <div className="w-full">
@@ -302,9 +220,7 @@ export default function EmployeeDetails({
                       Date of Birth
                     </p>
                     <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {dayjs(userProfile?.date_of_birth).format(
-                        "DD MMM YYYY"
-                      ) || "N/A"}
+                      N/A
                     </p>
                   </div>
                 </div>
@@ -314,143 +230,10 @@ export default function EmployeeDetails({
                       Address
                     </p>
                     <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {userProfile?.address}
+                      N/A
                     </p>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="mt-8 border-t border-[#E5E9EB] pt-4">
-              <p className="text-[#A5B2CA] text-[16px] font-[600]">
-                Bank Information
-              </p>
-
-              <div className="mt-4 space-y-4">
-                {userProfile?.bank_informations.map((bankInfo, index) => (
-                  <div key={index}>
-                    <div className="flex justify-between gap-8">
-                      <div className="w-full">
-                        <p className="text-[#324054] text-[16px] font-[500] mb-2">
-                          Bank Name
-                        </p>
-                        <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                          {bankInfo.bank_name}
-                        </p>
-                      </div>
-                      <div className="w-full">
-                        <p className="text-[#324054] text-[16px] font-[500] mb-2">
-                          Branch Name
-                        </p>
-                        <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                          {bankInfo.branch_name}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex justify-between gap-8">
-                      <div className="w-full">
-                        <p className="text-[#324054] text-[16px] font-[500] mb-2">
-                          Account Name
-                        </p>
-                        <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                          {bankInfo.account_holder_name}
-                        </p>
-                      </div>
-                      <div className="w-full">
-                        <p className="text-[#324054] text-[16px] font-[500] mb-2">
-                          Account Number
-                        </p>
-                        <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                          {bankInfo.account_number}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8 border-t border-[#E5E9EB] pt-4">
-              <p className="text-[#A5B2CA] text-[16px] font-[600]">
-                Additional Information
-              </p>
-
-              <div className="mt-4 space-y-4">
-                <div className="flex justify-between gap-8">
-                  <div className="w-full">
-                    <p className="text-[#324054] text-[16px] font-[500] mb-2">
-                      Current Salary
-                    </p>
-                    <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      {salaryInfo?.currentSalary}
-                    </p>
-                  </div>
-                  <div className="w-full">
-                    <p className="text-[#324054] text-[16px] font-[500] mb-2">
-                      Type
-                    </p>
-                    <p className="text-[#292D32] text-[16px] font-[500] opacity-70">
-                      Full Time
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8 border-t border-[#E5E9EB] pt-4">
-              <p className="text-[#A5B2CA] text-[16px] font-[600]">
-                Increments
-              </p>
-              <div className="mt-4">
-                <div className="bg-[#F6F6F6] w-full h-[40px] grid grid-cols-8 px-4">
-                  <div className="col-span-2 my-auto">
-                    <p className="text-[#6F6F6F] text-[16px] font-[500]">SL</p>
-                  </div>
-                  <div className="col-span-2 my-auto">
-                    <p className="text-[#6F6F6F] text-[16px] font-[500] opacity-70">
-                      Date
-                    </p>
-                  </div>
-                  <div className="col-span-2 my-auto">
-                    <p className="text-[#6F6F6F] text-[16px] font-[500]">
-                      Previous Salary
-                    </p>
-                  </div>
-                  <div className="col-span-2 my-auto">
-                    <p className="text-[#6F6F6F] text-[16px] font-[500] opacity-70">
-                      New Salary
-                    </p>
-                  </div>
-                </div>
-
-                {salaryInfo?.salary_history.map((record, index) => (
-                  <div
-                    key={index}
-                    className="bg-[#FFFFFF] w-full border-b border-[#E5E9EB] py-3 grid grid-cols-8 px-4 rounded-[8px]"
-                  >
-                    <div className="col-span-2 my-auto">
-                      <p className="text-[#292D32]  text-[16px] font-[500]">
-                        {index + 1}
-                      </p>
-                    </div>
-                    <div className="col-span-2 my-auto">
-                      <p className="text-[#292D32] text-[16px]  font-[500] opacity-70">
-                        {dayjs(record?.changed_at).format("DD MMM YYYY") ||
-                          "N/A"}
-                      </p>
-                    </div>
-                    <div className="col-span-2 my-auto">
-                      <p className="text-[#292D32] text-[16px]  font-[500] opacity-70">
-                        {record.previousSalary}
-                      </p>
-                    </div>
-                    <div className="col-span-2 my-auto">
-                      <p className="text-[#292D32] text-[16px]  font-[500] opacity-70">
-                        {salaryInfo.newSalary}
-                      </p>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
@@ -458,7 +241,4 @@ export default function EmployeeDetails({
       </div>
     </div>
   );
-}
-function getEmployeeSalary(id: string) {
-  throw new Error("Function not implemented.");
 }

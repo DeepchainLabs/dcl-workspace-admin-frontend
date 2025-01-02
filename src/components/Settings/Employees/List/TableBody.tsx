@@ -3,49 +3,27 @@ import StatusBadge from "@/components/Common/StatusBadge";
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { UserProfile } from "../ProfileInterface";
-import { getEmployee } from "@/resources/settings/employee.service";
 import EmployeeDetails from "../EmployeeDetails";
 import UpdateEmployee from "../UpdateEmployee";
-
-async function fetchEmployee(id: string): Promise<UserProfile | null> {
-  try {
-    const response = await getEmployee(id);
-    if (response && typeof response === "object" && "_id" in response) {
-      return response as UserProfile;
-    }
-    throw new Error("Invalid user profile response");
-  } catch (error) {
-    console.error("Error fetching employee:", error);
-    return null;
-  }
-}
+import { getEmployeeDetails } from "@/resources/settings/employee.service";
+import UpdateEmployeModal from "../UpdateEmployee";
 
 export default function TableBody({ employees }: { employees: any }) {
   const [openDetailsModal, setOpenDetailsModal] = React.useState(false);
   const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
-  const [employeeDetails, setEmployeeDetails] = React.useState();
-  const [employeeSalaryDetails, setEmployeeSalaryDetails] = React.useState();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [employeeDetails, setEmployeeDetails] = React.useState<any>();
   const [employeeId, setEmployeeId] = React.useState("");
-  const handleUpdate = () => {
+
+  const handleUpdate = (details: any) => {
     setOpenDetailsModal(false);
     setOpenUpdateModal(true);
   };
   useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const data = await fetchEmployee(employeeId);
-      if (data) {
-        setUserProfile(data);
-        setError(null);
-      } else {
-        setError("Failed to fetch user profile");
-      }
-      setLoading(false);
-    }
-    fetchData();
+    getEmployeeDetails(employeeId)
+      .then((res) => {
+        setEmployeeDetails(res);
+      })
+      .catch((err) => {});
   }, [employeeId]);
 
   return (
@@ -53,7 +31,7 @@ export default function TableBody({ employees }: { employees: any }) {
       {employees.length > 0 &&
         employees?.map((item: any, index: number) => (
           <div
-            key={index}
+            key={item?.id}
             onClick={() => {
               setEmployeeId(item._id);
               setOpenDetailsModal(true);
@@ -97,20 +75,18 @@ export default function TableBody({ employees }: { employees: any }) {
         ))}
       {openDetailsModal && (
         <EmployeeDetails
-          employeeId={employeeId}
           show={openDetailsModal}
           setShow={() => setOpenDetailsModal(false)}
-          handleUpdate={handleUpdate}
-          employeeDetails={setEmployeeDetails}
-          salaryDetails={setEmployeeSalaryDetails}
+          handleUpdate={() => handleUpdate(employeeDetails)}
+          employeeDetails={employeeDetails}
         />
       )}
       {openUpdateModal && (
-        <UpdateEmployee
-          salaryDetails={employeeSalaryDetails}
-          employeeDetails={employeeDetails}
+        <UpdateEmployeModal
           show={openUpdateModal}
           setShow={() => setOpenUpdateModal(false)}
+          employeeDetails={employeeDetails}
+          setEmployeeDetails={setEmployeeDetails}
         />
       )}
     </div>

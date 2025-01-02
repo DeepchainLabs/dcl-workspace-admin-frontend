@@ -1,10 +1,13 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import StatusBadge from "@/components/Common/StatusBadge";
 import DropDown from "@/components/Common/DropDown";
 import { useFormState, useFormStatus } from "react-dom";
+import { handleCreateAdmin } from "@/app/(authenticated)/admin/settings/employees/actions";
+import toast from "react-hot-toast";
+import { extractError } from "@/utils/errors.utils";
 // import { handleSubmit } from "@/app/(authenticated)/organization/employees/actions";
 
 export default function AddEmployee({ show, setShow }: any) {
@@ -37,8 +40,18 @@ export default function AddEmployee({ show, setShow }: any) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [modalRef, closeMenu]);
+  const [state, action, pending] = useActionState(handleCreateAdmin, {});
 
-  // const [errors, action] = useFormState(handleSubmit, {});
+  useEffect(() => {
+    if (state?.success) {
+      closeMenu();
+      toast.success("User added successfully");
+    }
+    if (state?.error) {
+      toast.error(extractError(state.error));
+    }
+    console.log(state);
+  }, [state, closeMenu]);
 
   return (
     <div
@@ -87,7 +100,7 @@ export default function AddEmployee({ show, setShow }: any) {
               </svg>
             </div>
 
-            <form>
+            <form action={action}>
               <div className="mt-0">
                 <p className="text-[#A5B2CA] text-[16px] font-[600]">
                   General Information
@@ -104,11 +117,11 @@ export default function AddEmployee({ show, setShow }: any) {
                         name="first_name"
                         className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
                       />
-                      {/* {errors.first_name && (
+                      {state?.formErrors?.first_name && (
                         <div className="text-red-500 text-[13px] font-[600] mt-1">
-                          {errors.first_name}
+                          {state?.formErrors.first_name}
                         </div>
-                      )} */}
+                      )}
                     </div>
                     <div className="w-full">
                       <p className="text-[#324054] text-[14px] font-[600] mb-2">
@@ -119,11 +132,11 @@ export default function AddEmployee({ show, setShow }: any) {
                         name="last_name"
                         className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
                       />
-                      {/* {errors.last_name && (
+                      {state?.formErrors?.last_name && (
                         <div className="text-red-500 text-[13px] font-[600] mt-1">
-                          {errors.last_name}
+                          {state?.formErrors?.last_name}
                         </div>
-                      )} */}
+                      )}
                     </div>
                   </div>
                   <div className="flex justify-between gap-8">
@@ -136,11 +149,11 @@ export default function AddEmployee({ show, setShow }: any) {
                         name="email"
                         className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
                       />
-                      {/* {errors.email && (
+                      {state?.formErrors?.email && (
                         <div className="text-red-500 text-[13px] font-[600] mt-1">
-                          {errors.email}
+                          {state?.formErrors?.email}
                         </div>
-                      )} */}
+                      )}
                     </div>
                     <div className="w-full">
                       <p className="text-[#324054] text-[14px] font-[600] mb-2">
@@ -151,23 +164,28 @@ export default function AddEmployee({ show, setShow }: any) {
                         name="username"
                         className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
                       />
-                      {/* {errors.username && (
+                      {state?.formErrors?.username && (
                         <div className="text-red-500 text-[13px] font-[600] mt-1">
-                          {errors.username}
+                          {state?.formErrors?.username}
                         </div>
-                      )} */}
+                      )}
                     </div>
                   </div>
                   <div className="flex justify-between gap-8">
                     <div className="w-full">
                       <p className="text-[#324054] text-[14px] font-[600] mb-2">
-                        Discord ID
+                        Designation
                       </p>
                       <input
                         type="text"
-                        name="discord_id"
+                        name="designation"
                         className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
                       />
+                      {state?.formErrors?.designation && (
+                        <div className="text-red-500 text-[13px] font-[600] mt-1">
+                          {state?.formErrors?.designation}
+                        </div>
+                      )}
                     </div>
                     <div className="w-full">
                       <p className="text-[#324054] text-[14px] font-[600] mb-2">
@@ -178,28 +196,28 @@ export default function AddEmployee({ show, setShow }: any) {
                         name="phone"
                         className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
                       />
-                      {/* {errors.phone && (
+                      {state?.formErrors?.phone && (
                         <div className="text-red-500 text-[13px] font-[600] mt-1">
-                          {errors.phone}
+                          {state?.formErrors?.phone}
                         </div>
-                      )} */}
+                      )}
                     </div>
                   </div>
                   <div className="flex justify-between gap-8">
                     <div className="w-full">
                       <p className="text-[#324054] text-[14px] font-[600] mb-2">
-                        Role
+                        Position
                       </p>
                       <input
                         type="text"
-                        name="role"
+                        name="position"
                         className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
                       />
-                      {/* {errors.role && (
+                      {state?.formErrors?.position && (
                         <div className="text-red-500 text-[13px] font-[600] mt-1">
-                          {errors.role}
+                          {state?.formErrors?.position}
                         </div>
-                      )} */}
+                      )}
                     </div>
                     <div className="w-full">
                       <p className="text-[#324054] text-[14px] font-[600] mb-2">
@@ -232,88 +250,6 @@ export default function AddEmployee({ show, setShow }: any) {
                           {errors.address}
                         </div>
                       )} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <p className="text-[#A5B2CA] text-[16px] font-[600]">
-                  Additional Information
-                </p>
-
-                <div className="mt-6 space-y-6">
-                  <div className="flex justify-between gap-8">
-                    <div className="w-full">
-                      <p className="text-[#324054] text-[14px] font-[600] mb-2">
-                        Salary
-                      </p>
-                      <input
-                        type="text"
-                        className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
-                      />
-                    </div>
-                    <div className="w-full">
-                      <p className="text-[#324054] text-[14px] font-[600] mb-2">
-                        Type
-                      </p>
-                      <DropDown
-                        options={[
-                          { id: "fulltime", name: "Full Time" },
-                          { id: "contractual", name: "Contractual" },
-                        ]}
-                        onChange={() => {}}
-                        width="100%"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <p className="text-[#A5B2CA] text-[16px] font-[600]">
-                  Bank Information
-                </p>
-
-                <div className="mt-6 space-y-6">
-                  <div className="flex justify-between gap-8">
-                    <div className="w-full">
-                      <p className="text-[#324054] text-[14px] font-[600] mb-2">
-                        Bank Name
-                      </p>
-                      <input
-                        type="text"
-                        className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
-                      />
-                    </div>
-                    <div className="w-full">
-                      <p className="text-[#324054] text-[14px] font-[600] mb-2">
-                        Branch Name
-                      </p>
-                      <input
-                        type="text"
-                        className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex justify-between gap-8">
-                    <div className="w-full">
-                      <p className="text-[#324054] text-[14px] font-[600] mb-2">
-                        Account Name
-                      </p>
-                      <input
-                        type="text"
-                        className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
-                      />
-                    </div>
-                    <div className="w-full">
-                      <p className="text-[#324054] text-[14px] font-[600] mb-2">
-                        Account Number
-                      </p>
-                      <input
-                        type="text"
-                        className="w-full border border-[#E5E9EB] rounded-[8px] px-4 py-1.5 text-[#292D32] text-[16px] font-[600] focus:outline-none focus:ring-1 ring-[#5D5FEF]"
-                      />
                     </div>
                   </div>
                 </div>

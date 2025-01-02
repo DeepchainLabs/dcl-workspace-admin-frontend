@@ -9,17 +9,21 @@ export default async function Employees({ searchParams }: PageProps) {
   const viewType = searchParams.view_type || "list";
 
   return (
-    <div className="custom-layout py-4 h-[calc(100vh-75px)] overflow-y-auto">
-      <Tab status={status} view={viewType} />
+    <div>
+      <div className="">
+        <Tab status={status} view={viewType} />
 
-      <div>
-        <div className="block md:hidden">
-          <GridView status={status} />
-        </div>
+        <div className="custom-layout">
+          <div className="py-4 h-[calc(100vh-270px)] overflow-y-auto">
+            <div className="block md:hidden">
+              <GridView status={status} />
+            </div>
 
-        <div className="hidden md:block">
-          {viewType === "list" && <ListView status={status} />}
-          {viewType === "grid" && <GridView status={status} />}
+            <div className="hidden md:block">
+              {viewType === "list" && <ListView status={status} />}
+              {viewType === "grid" && <GridView status={status} />}
+            </div>
+          </div>
         </div>
       </div>
     </div>

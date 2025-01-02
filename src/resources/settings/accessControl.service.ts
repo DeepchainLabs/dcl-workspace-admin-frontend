@@ -5,7 +5,7 @@ import { z } from "zod";
 
 export const getRoles = async (data: object) => {
   const res = await getFetch(
-    { url: "/roles", method: "get", data },
+    { url: "/admin/roles", method: "get", data },
     z.array(
       z.object({
         _id: z.string(),
@@ -20,7 +20,7 @@ export const getRoles = async (data: object) => {
 export const getUserRoles = async (data: { userId: string }) => {
   const res = await getFetch(
     {
-      url: `/roles/user-role-mappings?select=roles&relations=roles&user=${data.userId}`,
+      url: `/admin/roles/user-role-mappings?select=roles&relations=roles&user=${data.userId}`,
       method: "get",
     },
     z.array(
@@ -40,7 +40,7 @@ export const getUserRoles = async (data: { userId: string }) => {
 export const getUserPermissions = async (data: { userId: string }) => {
   const res = await getFetch(
     {
-      url: `/roles/user-role-mappings?select=permissions&relations=permissions&user=${data.userId}`,
+      url: `/admin/roles/user-role-mappings?select=permissions&relations=permissions&user=${data.userId}`,
       method: "get",
     },
     z.array(
@@ -59,7 +59,7 @@ export const assignRoleToUser = async (data: {
 }) => {
   const res = await getFetch(
     {
-      url: `/roles/roles-for-user`,
+      url: `/admin/roles/roles-for-user`,
       method: "patch",
       data,
     },
@@ -75,7 +75,7 @@ export const assignPermissionToUser = async (data: {
 }) => {
   const res = await getFetch(
     {
-      url: `/roles/permissions-for-user`,
+      url: `/admin/roles/permissions-for-user`,
       method: "patch",
       data,
     },
@@ -91,7 +91,7 @@ export const assignPermissionToRole = async (data: {
 }) => {
   const res = await getFetch(
     {
-      url: `/roles/permissions-for-role`,
+      url: `/admin/roles/permissions-for-role`,
       method: "patch",
       data,
     },
@@ -103,7 +103,7 @@ export const assignPermissionToRole = async (data: {
 export const createRole = async (data: { name: string; permissions: any[] }) =>
   await getFetch(
     {
-      url: "/roles",
+      url: "/admin/roles",
       method: "post",
       data,
     },
@@ -112,7 +112,7 @@ export const createRole = async (data: { name: string; permissions: any[] }) =>
 
 export const getPermissions = async (data: object) => {
   const res = await getFetch(
-    { url: "/roles/permissions", method: "get", data },
+    { url: "/admin/roles/permissions", method: "get", data },
     z.object({})
   );
   return res;
@@ -120,7 +120,11 @@ export const getPermissions = async (data: object) => {
 
 export const getModulePermissions = async (data: { name: string }) => {
   const res = await getFetch(
-    { url: `/roles/permissions?module=${data.name}`, method: "get", data },
+    {
+      url: `/admin/roles/permissions?module=${data.name}`,
+      method: "get",
+      data,
+    },
     z.array(z.string())
   );
   return res;

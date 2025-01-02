@@ -5,7 +5,7 @@ import { z } from "zod";
 export const getEmployess = async (data: object) => {
   const res = await getFetch(
     {
-      url: "/tenants/registered-users",
+      url: "/admin/users",
       method: "get",
       data,
       tags: ["employees"],
@@ -30,13 +30,48 @@ export const getEmployess = async (data: object) => {
   return res;
 };
 
-export const getEmployee = async (id: string) => {
+export const getEmployeeDetails = async (id: string) => {
   const res = await getFetch(
     {
-      url: `/user-profiles/${id}?relations=user`,
+      url: `/admin/users/${id}`,
       method: "get",
     },
     z.object({})
   );
   return res;
 };
+
+export const addNewAdmin = async (data: {
+  first_name: string;
+  last_name: string;
+  email: string;
+  username: string;
+  phone?: string;
+  designation?: string;
+  position?: string;
+  // client_url: string;
+}) =>
+  await getFetch(
+    { url: "/admin/users", method: "post", data },
+    z.object({
+      token: z.string(),
+    })
+  );
+
+export const updateAdmin = async (data: {
+  first_name: string;
+  last_name: string;
+  email: string;
+  username: string;
+  phone?: string;
+  designation?: string;
+  position?: string;
+  id: string;
+  // client_url: string;
+}) =>
+  await getFetch(
+    { url: `/admin/users/${data.id}`, method: "patch", data },
+    z.object({
+      token: z.string(),
+    })
+  );
