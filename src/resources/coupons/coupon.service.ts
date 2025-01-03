@@ -1,5 +1,6 @@
 "use server";
 import { getFetch } from "@/config/axios-config";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
 export const getAllCoupons = async () => {
@@ -7,6 +8,7 @@ export const getAllCoupons = async () => {
     {
       url: `/coupons`,
       method: "get",
+      tags: ["coupons"],
     },
     z.array(z.object({}))
   );
@@ -24,14 +26,30 @@ export const getCouponDetails = async (id: string) => {
   return res;
 };
 
+export const getCouponsSummary = async () => {
+  const res = await getFetch(
+    {
+      url: `/coupons/stats`,
+      method: "get",
+    },
+    z.object({
+      total: z.number(),
+      active: z.number(),
+      used: z.number(),
+      unused: z.number(),
+    })
+  );
+  return res;
+};
+
 export const createNewCoupon = async (data: {
   code: string;
   discount_type: string;
-  description: string;
-  discount_amount: string;
+  description?: string;
+  discount_amount: number;
   expire_on?: string;
-  max_user_limit?: string;
-  min_purchase_amount?: string;
+  max_user_limit?: number;
+  min_purchase_amount?: number;
   discount_capability: string;
 }) =>
   await getFetch(
@@ -61,11 +79,14 @@ export const updateCoupon = async (data: {
 
 export const updateCouponStatus = async (data: {
   id: string;
-  status: string;
-}) =>
-  await getFetch(
+  active: boolean;
+}) => {
+  const res = await getFetch(
     { url: `/coupons/${data.id}`, method: "patch", data },
     z.object({
       message: z.string(),
     })
   );
+  revalidateTag("coupons");
+  return res;
+};

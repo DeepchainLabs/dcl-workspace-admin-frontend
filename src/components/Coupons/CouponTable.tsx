@@ -1,15 +1,29 @@
 "use client";
 import React, { useState } from "react";
 import ToggleMini from "../ClientManagement/TooglelMini";
-import { coupons } from "@/contents/Admin/Coupons/Data";
 import RemoveIcon from "@/svg/CloudStorage/RemoveIcon";
 import EyeSvg from "@/svg/Admin/EyeSvg";
 import EditIconSvg from "@/svg/Admin/EditIconSvg";
 import StatusBadge from "@/components/Common/StatusBadge";
 import UpdateCouponModal from "./UpdateCouponModal";
+import dayjs from "dayjs";
+import { updateCouponStatus } from "@/resources/coupons/coupon.service";
+import toast from "react-hot-toast";
+import { extractError } from "@/utils/errors.utils";
 
-function CouponTable() {
+function CouponTable({ coupons }: any) {
   const [showCouponModal, setShowCouponModal] = useState(false);
+
+  const handleToggle = (id: string, toogle: boolean) => {
+    updateCouponStatus({ id, active: toogle })
+      .then((res) => {
+        toast.success(res.message);
+      })
+      .catch((error) => {
+        toast.error(extractError(error));
+      });
+  };
+
   return (
     <div className="mt-4 table-wrp block h-[calc(100vh-40vh)] overflow-y-auto">
       <table className="table-fixed w-full rounded-[16px]">
@@ -44,27 +58,29 @@ function CouponTable() {
               key={index}
               // className={index % 2 === 0 ? "bg-white" : "bg-[#F8FAFC]"}
             >
+              <td className="border-b border-[#EAECF0] p-4">{item.code}</td>
               <td className="border-b border-[#EAECF0] p-4">
-                {item.couponCode}
+                {item.discount_type}
               </td>
               <td className="border-b border-[#EAECF0] p-4">
-                {item.discountType}
+                {item.discount_amount}
               </td>
               <td className="border-b border-[#EAECF0] p-4">
-                {item.discountAmount}
+                {dayjs(item.expire_on).format("DD/MM/YYYY") || "N/A"}
               </td>
               <td className="border-b border-[#EAECF0] p-4">
-                {item.expirationDate}
+                {item.use_count}
               </td>
               <td className="border-b border-[#EAECF0] p-4">
-                {item.timesUsed}
-              </td>
-              <td className="border-b border-[#EAECF0] p-4">
-                <StatusBadge text={item.status} />
+                <StatusBadge text={item.active ? "active" : "inactive"} />
               </td>
               <td className="border-b border-[#EAECF0] p-4">
                 <div className="flex gap-4 my-auto">
-                  <ToggleMini />
+                  <ToggleMini
+                    id={item._id}
+                    checked={item.active ? true : false}
+                    onChange={handleToggle}
+                  />
                   <div
                     className="cursor-pointer"
                     onClick={() => setShowCouponModal(true)}
