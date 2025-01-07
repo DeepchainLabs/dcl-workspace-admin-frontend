@@ -3,12 +3,12 @@ import { getFetch } from "@/config/axios-config";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
-export const getAllCoupons = async () => {
+export const getAllClients = async () => {
   const res = await getFetch(
     {
-      url: `/coupons`,
+      url: `/admin/client-manage/workspaces?relations=subscription,created_by`,
       method: "get",
-      tags: ["coupons"],
+      tags: ["workspace_clients"],
     },
     z.array(z.object({}))
   );
@@ -26,17 +26,16 @@ export const getCouponDetails = async (id: string) => {
   return res;
 };
 
-export const getCouponsSummary = async () => {
+export const getClientsSummary = async () => {
   const res = await getFetch(
     {
-      url: `/coupons/stats`,
+      url: `/admin/client-manage/workspaces/stats`,
       method: "get",
     },
     z.object({
       total: z.number(),
       active: z.number(),
-      used: z.number(),
-      unused: z.number(),
+      new: z.number(),
     })
   );
   return res;

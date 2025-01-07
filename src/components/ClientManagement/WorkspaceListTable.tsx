@@ -9,12 +9,12 @@ import WorkspaceToggle from "./Workspace/WorkspaceToggle";
 import ToggleMini from "./TooglelMini";
 import { useRouter } from "next/navigation";
 
-function WorkspaceListTable() {
+function WorkspaceListTable({ clients }: { clients: any }) {
   const router = useRouter();
   return (
     <div>
-      <div className="flex gap-4 mt-6">
-        <div className="flex gap-2 w-[30%]">
+      <div className="flex gap-4 justify-end mt-8">
+        {/* <div className="flex gap-2 w-[30%]">
           <p className="text-[14px] text-[#324054] font-[500] my-auto">
             Status
           </p>
@@ -47,8 +47,8 @@ function WorkspaceListTable() {
               height="45px"
             />
           </div>
-        </div>
-        <div className="flex gap-2 w-[60%]">
+        </div> */}
+        <div className="flex gap-2 w-[30%]">
           <div className="w-[200px] my-auto">
             <p className="text-[14px] text-[#324054] font-[500]">Date Range</p>
           </div>
@@ -101,35 +101,25 @@ function WorkspaceListTable() {
             </tr>
           </thead>
           <tbody className="text-[#292D32] bg-[#FFFFFF] text-[14px] font-[500]">
-            {workspaces.map((item: any, index: number) => (
+            {clients?.map((item: any, index: number) => (
               <tr
                 key={index}
                 // className={index % 2 === 0 ? "bg-white" : "bg-[#F8FAFC]"}
               >
                 <td className="border-b border-[#EAECF0] p-4">
-                  {item.workspaceId}
+                  {item.identifier.slice(0, 5)}
+                </td>
+                <td className="border-b border-[#EAECF0] p-4">{item.name}</td>
+                <td className="border-b border-[#EAECF0] p-4">
+                  {item.created_by.first_name} {item.created_by.last_name}
                 </td>
                 <td className="border-b border-[#EAECF0] p-4">
-                  {item.workspaceName}
+                  {item.subscription ? item.subscription.package : "N/A"}
                 </td>
-                <td className="border-b border-[#EAECF0] p-4">
-                  {item.ownerName}
-                </td>
-                <td className="border-b border-[#EAECF0] p-4">
-                  {item.package}
-                </td>
-                <td className="border-b border-[#EAECF0] p-4">
-                  {item.projects}
-                </td>
-                <td className="border-b border-[#EAECF0] p-4">
-                  {item.storageUsed}
-                </td>
-                <td className="border-b border-[#EAECF0] p-4">
-                  {item.employees}
-                </td>
-                <td className="border-b border-[#EAECF0] p-4">
-                  {item.lastPaymentDate}
-                </td>
+                <td className="border-b border-[#EAECF0] p-4">N/A</td>
+                <td className="border-b border-[#EAECF0] p-4">N/A</td>
+                <td className="border-b border-[#EAECF0] p-4">N/A</td>
+                <td className="border-b border-[#EAECF0] p-4">N/A</td>
                 <td className="border-b border-[#EAECF0] p-4">
                   <div className="flex gap-2 my-auto">
                     <ToggleMini />
