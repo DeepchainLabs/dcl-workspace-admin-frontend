@@ -1,1 +1,1 @@
-module.exports = { apps: [{ name: 'workspace_admin_frontend', script: 'pnpm dev' }] };
+module.exports = { apps: [{ name: "wpaf", script: "pnpm dev" }] };
