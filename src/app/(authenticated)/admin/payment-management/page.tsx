@@ -9,7 +9,14 @@ import RefundRequestTable from "@/components/PaymentManagement/RefundRequest";
 import RevenueReport from "@/components/PaymentManagement/RevenueReport";
 import StripeTransaction from "@/components/PaymentManagement/StripeTransactions";
 import UpcomingPaymentTable from "@/components/PaymentManagement/UpcomingPaymentTable";
-import { getRefundRequests } from "@/resources/payment/payment.service";
+import {
+  getFailedPaymentCount,
+  getPaymentHistory,
+  getRecurringRevenue,
+  getRefundRequests,
+  getTotalRevenue,
+  getTransactionCount,
+} from "@/resources/payment/payment.service";
 import { extractError } from "@/utils/errors.utils";
 
 export default async function PaymentManagement() {
@@ -17,7 +24,20 @@ export default async function PaymentManagement() {
     return extractError(error);
   });
 
-  console.log("requests", requests);
+  const [totalRevenue, recurringRevenue, transactionCount, failedPaymentCount] =
+    await Promise.all([
+      getTotalRevenue(),
+      getRecurringRevenue(),
+      getTransactionCount(),
+      getFailedPaymentCount(),
+    ]);
+
+  const paymentHistory = await getPaymentHistory().catch((error) => {
+    return extractError(error);
+  });
+
+  console.log("paymentHistory", paymentHistory);
+
   return (
     <div>
       <div className="border-b border-[#E5E9EB] h-[76px] px-4 lg:px-8">
@@ -31,7 +51,7 @@ export default async function PaymentManagement() {
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-6">
           <div>
             <StatsCard
-              number={"$54,000"}
+              number={totalRevenue.amount / 100 || 0}
               bgColor={"#F0F5FF"}
               textColor={"#2377FC"}
               title={"Total Revenue"}
@@ -40,7 +60,7 @@ export default async function PaymentManagement() {
           </div>
           <div>
             <StatsCard
-              number={"$54,000"}
+              number={recurringRevenue.amount / 100 || 0}
               bgColor={"#F0F5FF"}
               textColor={"#2377FC"}
               title={"Monthly Recurring Revenue"}
@@ -49,7 +69,7 @@ export default async function PaymentManagement() {
           </div>
           <div>
             <StatsCard
-              number={200}
+              number={transactionCount.count || 0}
               bgColor={"#F0F5FF"}
               textColor={"#2377FC"}
               title={"Total Transactions"}
@@ -58,7 +78,7 @@ export default async function PaymentManagement() {
           </div>
           <div>
             <StatsCard
-              number={"10%"}
+              number={"N/A"}
               bgColor={"#F0F5FF"}
               textColor={"#2377FC"}
               title={"Refund Rate"}
@@ -67,7 +87,7 @@ export default async function PaymentManagement() {
           </div>
           <div>
             <StatsCard
-              number={"05"}
+              number={failedPaymentCount.count || 0}
               bgColor={"#F0F5FF"}
               textColor={"#2377FC"}
               title={"Failed Payments"}
@@ -90,7 +110,7 @@ export default async function PaymentManagement() {
         </div>
         <div className="flex mt-6">
           <p className="text-[#292D32] text-[20px] font-[600]">
-            Payment Statistics
+            Payment Statistics (Not Integrated)
           </p>
         </div>
         <div className="mt-6 flex items-center gap-6">
@@ -106,11 +126,11 @@ export default async function PaymentManagement() {
           </p>
         </div>
         <div className="mt-6">
-          <PaymentHistoryTable></PaymentHistoryTable>
+          <PaymentHistoryTable history={paymentHistory}></PaymentHistoryTable>
         </div>
         <div className="flex mt-12">
           <p className="text-[#292D32] text-[20px] font-[600]">
-            Upcoming Payments
+            Upcoming Payments (Not Integrated)
           </p>
         </div>
         <div className="mt-6">
