@@ -134,3 +134,11 @@ export const toggle2FA = async () => {
   revalidateTag("users_me");
   return res;
 };
+
+export const myCapabilities = async () => {
+  const res = await getFetch(
+    { url: "/admin/auth/me/capabilities", method: "get" },
+    z.array(z.string())
+  );
+  return res;
+};

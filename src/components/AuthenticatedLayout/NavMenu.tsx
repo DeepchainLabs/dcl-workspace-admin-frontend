@@ -5,10 +5,20 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import MenuItems from "@/constants/menuItems";
 
-export default function NavMenu() {
+interface NavMenuProps {
+  permissions: string[];
+}
+
+export default function NavMenu({ permissions }: NavMenuProps) {
   const pathname = usePathname();
   const [selectedMenuItem, setSelectedMenuItem] = useState<any>();
   const [menuItems, setMenuItems] = useState(MenuItems);
+
+  useEffect(() => {
+    if (permissions?.length > 0) {
+      localStorage.setItem("capabilities", JSON.stringify(permissions));
+    }
+  }, [permissions]);
 
   useEffect(() => {
     const activeItem = menuItems.find(
@@ -122,6 +132,12 @@ export default function NavMenu() {
                   const isSubActive = pathname.startsWith(
                     item.route + subItem.route
                   );
+                  if (
+                    subItem.permission &&
+                    !permissions?.includes(subItem.permission)
+                  ) {
+                    return null;
+                  }
                   return (
                     <Link
                       key={subIndex}
