@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { updateCouponStatus } from "@/resources/coupons/coupon.service";
 import toast from "react-hot-toast";
 import { extractError } from "@/utils/errors.utils";
+import { hasPermission } from "@/utils/checkPermission";
 
 function CouponTable({ coupons }: any) {
   const [showCouponModal, setShowCouponModal] = useState(false);
@@ -75,27 +76,29 @@ function CouponTable({ coupons }: any) {
                 <StatusBadge text={item.active ? "active" : "inactive"} />
               </td>
               <td className="border-b border-[#EAECF0] p-4">
-                <div className="flex gap-4 my-auto">
-                  <ToggleMini
-                    id={item._id}
-                    checked={item.active ? true : false}
-                    onChange={handleToggle}
-                  />
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => setShowCouponModal(true)}
-                  >
-                    {" "}
-                    <EditIconSvg />{" "}
+                {hasPermission("MANAGE_COUPONS") && (
+                  <div className="flex gap-4 my-auto">
+                    <ToggleMini
+                      id={item._id}
+                      checked={item.active ? true : false}
+                      onChange={handleToggle}
+                    />
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => setShowCouponModal(true)}
+                    >
+                      {" "}
+                      <EditIconSvg />{" "}
+                    </div>
+                    <div className="cursor-pointer">
+                      {" "}
+                      <RemoveIcon />{" "}
+                    </div>
+                    <div className="cursor-pointer">
+                      <EyeSvg />
+                    </div>
                   </div>
-                  <div className="cursor-pointer">
-                    {" "}
-                    <RemoveIcon />{" "}
-                  </div>
-                  <div className="cursor-pointer">
-                    <EyeSvg />
-                  </div>
-                </div>
+                )}
               </td>
             </tr>
           ))}
