@@ -1,3 +1,4 @@
+"use client";
 import React, { useActionState, useEffect, useState } from "react";
 import Close from "@/svg/Subscription/Close";
 import DropDown from "@/components/Common/DropDown";
