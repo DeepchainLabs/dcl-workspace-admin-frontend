@@ -15,16 +15,16 @@ export default async function AuthenticatedLayout({
   // console.log("public", { user });
   if (!user) return redirect(`/auth/login`);
 
-  // permissions = await myCapabilities();
-  permissions = [
-    "VIEW_ACCESS_CONTROL",
-    "MANAGE_ACCESS_CONTROL",
-    "VIEW_EMPLOYEES",
-    "MANAGE_EMPLOYEES",
-    "VIEW_COUPONS",
-    "MANAGE_COUPONS",
-    "VIEW_WORKSPACES",
-  ];
+  permissions = await myCapabilities();
+  // permissions = [
+  //   "VIEW_ACCESS_CONTROL",
+  //   "MANAGE_ACCESS_CONTROL",
+  //   "VIEW_EMPLOYEES",
+  //   "MANAGE_EMPLOYEES",
+  //   "VIEW_COUPONS",
+  //   "MANAGE_COUPONS",
+  //   "VIEW_WORKSPACES",
+  // ];
   if (permissions) {
     capabilities = Object.values(permissions).flat();
   }
