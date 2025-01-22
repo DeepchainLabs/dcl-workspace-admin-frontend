@@ -18,7 +18,7 @@ const ActionMenuForClientManagement = ({
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(options);
+  // console.log(options);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

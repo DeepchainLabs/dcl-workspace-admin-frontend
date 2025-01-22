@@ -44,7 +44,7 @@ export default function EmployeeDetails({
     };
   }, [modalRef, closeMenu]);
 
-  console.log(employeeDetails);
+  // console.log(employeeDetails);
 
   return (
     <div

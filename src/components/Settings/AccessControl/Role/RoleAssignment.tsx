@@ -38,7 +38,7 @@ export default function RoleAssignment({
           setRolesAssigned(res[0]?.roles || []);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           toast.error(extractError(error));
         });
     }

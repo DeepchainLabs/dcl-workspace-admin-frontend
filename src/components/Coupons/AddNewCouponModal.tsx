@@ -49,7 +49,7 @@ export default function AddNewCouponModal({ setShow }: any) {
     if (state?.error) {
       toast.error(extractError(state.error));
     }
-    console.log(state);
+    // console.log(state);
   }, [state, setShow]);
 
   return (

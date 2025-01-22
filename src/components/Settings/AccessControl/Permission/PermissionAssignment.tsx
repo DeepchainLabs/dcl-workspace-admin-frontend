@@ -44,7 +44,7 @@ export default function PermissionAssignment({
   }, [permissions]);
 
   const handleModuleSelect = (module: string) => {
-    console.log(module);
+    // console.log(module);
     setSelectedModule(module);
   };
 
