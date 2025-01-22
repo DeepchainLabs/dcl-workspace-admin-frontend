@@ -9,13 +9,13 @@ export default async function AuthenticatedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let permissions: any;
+  // let permissions: any;
   let capabilities: any;
   const user = await getLoggedInUser().catch(() => null);
   // console.log("public", { user });
   if (!user) return redirect(`/auth/login`);
 
-  permissions = await myCapabilities();
+  const permissions = await myCapabilities();
   // permissions = [
   //   "VIEW_ACCESS_CONTROL",
   //   "MANAGE_ACCESS_CONTROL",
