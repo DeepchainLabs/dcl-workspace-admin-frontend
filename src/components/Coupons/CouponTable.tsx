@@ -7,23 +7,57 @@ import EditIconSvg from "@/svg/Admin/EditIconSvg";
 import StatusBadge from "@/components/Common/StatusBadge";
 import UpdateCouponModal from "./UpdateCouponModal";
 import dayjs from "dayjs";
-import { updateCouponStatus } from "@/resources/coupons/coupon.service";
 import toast from "react-hot-toast";
 import { extractError } from "@/utils/errors.utils";
+import {
+  deleteCoupon,
+  updateCouponStatus,
+} from "@/resources/coupons/coupon.service";
+import DeleteModal from "@/components/Common/DeleteModal";
+import ConfirmDeleteModal from "@/components/Common/ConfirmDeleteModal";
 import { hasPermission } from "@/utils/checkPermission";
 
-function CouponTable({ coupons }: any) {
+function CouponTable({ coupons }: { coupons: any[] }) {
   const [showCouponModal, setShowCouponModal] = useState(false);
+  const [selectedCoupon, setSelectedCoupon] = useState<any>(null);
 
-  const handleToggle = (id: string, toogle: boolean) => {
-    updateCouponStatus({ id, active: toogle })
-      .then((res) => {
-        toast.success(res.message);
-      })
-      .catch((error) => {
-        toast.error(extractError(error));
-      });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+
+  const handleToggle = async (id: string, toggle: boolean) => {
+    try {
+      const res = await updateCouponStatus({ id, active: toggle });
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(extractError(error));
+    }
   };
+
+  function handleEditClick(coupon: any) {
+    setSelectedCoupon(coupon);
+    setShowCouponModal(true);
+  }
+
+  function handleDeleteClick(coupon: any) {
+    setSelectedCoupon(coupon);
+    setShowDeleteModal(true);
+  }
+
+  async function handleDeleteConfirm() {
+    if (!selectedCoupon) return;
+    try {
+      setShowDeleteModal(false);
+      await deleteCoupon(selectedCoupon._id);
+      toast.success("Coupon deleted successfully!");
+      setShowConfirmDeleteModal(true);
+    } catch (error) {
+      toast.error(extractError(error));
+    }
+  }
+
+  function handleCloseConfirmDelete() {
+    setShowConfirmDeleteModal(false);
+  }
 
   return (
     <>
@@ -50,17 +84,14 @@ function CouponTable({ coupons }: any) {
                 <th className="border-b border-[#EAECF0] p-3 w-[10%] text-left">
                   Status
                 </th>
-                <th className="border-b border-[#EAECF0] p-3 w-[20%] text-left">
+                <th className="border-b border-[#EAECF0] p-3 w-[20%] text-left rounded-r-[6px]">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody className="text-[#292D32] bg-[#FFFFFF] text-[14px] font-[500]">
               {coupons.map((item: any, index: number) => (
-                <tr
-                  key={index}
-                  // className={index % 2 === 0 ? "bg-white" : "bg-[#F8FAFC]"}
-                >
+                <tr key={item._id}>
                   <td className="border-b border-[#EAECF0] p-4">{item.code}</td>
                   <td className="border-b border-[#EAECF0] p-4">
                     {item.discount_type}
@@ -69,10 +100,12 @@ function CouponTable({ coupons }: any) {
                     {item.discount_amount}
                   </td>
                   <td className="border-b border-[#EAECF0] p-4">
-                    {dayjs(item.expire_on).format("DD/MM/YYYY") || "N/A"}
+                    {item.expire_on
+                      ? dayjs(item.expire_on).format("DD/MM/YYYY")
+                      : "N/A"}
                   </td>
                   <td className="border-b border-[#EAECF0] p-4">
-                    {item.use_count}
+                    {item.use_count || 0}
                   </td>
                   <td className="border-b border-[#EAECF0] p-4">
                     <StatusBadge text={item.active ? "active" : "inactive"} />
@@ -87,14 +120,15 @@ function CouponTable({ coupons }: any) {
                         />
                         <div
                           className="cursor-pointer"
-                          onClick={() => setShowCouponModal(true)}
+                          onClick={() => handleEditClick(item)}
                         >
-                          {" "}
-                          <EditIconSvg />{" "}
+                          <EditIconSvg />
                         </div>
-                        <div className="cursor-pointer">
-                          {" "}
-                          <RemoveIcon />{" "}
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => handleDeleteClick(item)}
+                        >
+                          <RemoveIcon />
                         </div>
                         <div className="cursor-pointer">
                           <EyeSvg />
@@ -106,10 +140,29 @@ function CouponTable({ coupons }: any) {
               ))}
             </tbody>
           </table>
-          {showCouponModal && (
-            <UpdateCouponModal setShow={setShowCouponModal} />
-          )}
         </div>
+      )}
+
+      {showCouponModal && selectedCoupon && (
+        <UpdateCouponModal
+          setShow={setShowCouponModal}
+          coupon={selectedCoupon}
+        />
+      )}
+
+      {showDeleteModal && (
+        <DeleteModal
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          onDelete={handleDeleteConfirm}
+        />
+      )}
+      {showConfirmDeleteModal && (
+        <ConfirmDeleteModal
+          isOpen={showConfirmDeleteModal}
+          onClose={handleCloseConfirmDelete}
+          onConfirm={handleCloseConfirmDelete}
+        />
       )}
     </>
   );

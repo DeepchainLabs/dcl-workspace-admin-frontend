@@ -100,7 +100,7 @@ export default function AddNewCouponModal({ setShow }: any) {
                     selected={1}
                     options={[
                       { id: "PERCENTAGE", name: "Parcentage Based" },
-                      { id: "CLOSE", name: "Close" },
+                      { id: "FIXED", name: "Fixed" },
                     ]}
                     onChange={() => {}}
                     width="100%"
