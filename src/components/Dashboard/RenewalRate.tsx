@@ -1,19 +1,47 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Filter from "../Common/Filter";
 import { FilterIcon } from "@/svg/Crms/CommonIcons";
 import RenewalRateChart from "./RenewalRateChart";
 import GrowthIcon from "@/svg/Dashboard/GrowthIcon";
+import { extractError } from "@/utils/errors.utils";
+import ErrorAllert from "../Common/ErrorAllert";
+import { getRenewalRate } from "@/resources/dashboard/dashboard.service";
 
 export default function RenewalRate() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [renewalRate, setRenewalRate] = useState<any>(null);  
+  const [error, setError] = useState<string | null>(null);   
+  const [revalidate, setRevalidate] = useState(false);
 
   const filterItems = [
     { label: "Select Plan", options: ["Small Business", "Medium Business", "Large Business"], hasSearch: true },
     { label: "Monthly", options: ["Small Business", "Medium Business", "Large Business"], hasSearch: true },
   ];
 
+  useEffect(() => {
+      const fetchRenewalRate = async () => {
+          try {
+              const renewalRateData = await getRenewalRate();
+              setRenewalRate(renewalRateData);
+          } catch (error) {
+              console.log(error);
+              setError(extractError(error)); 
+          }
+      };
+      
+      fetchRenewalRate();
+  }, [revalidate]); 
+
+  if (renewalRate === null) {
+      return <p>loading</p>;
+  }
+
+  if (error) {
+      return <ErrorAllert message={error} />;
+  }
+  
   return (
     <div className="relative">
       <div className="flex justify-between items-center">
@@ -54,7 +82,7 @@ export default function RenewalRate() {
         </div>
       </div>
       <div className="flex items-center justify-center">
-          <RenewalRateChart></RenewalRateChart>
+          <RenewalRateChart percentage={renewalRate.percentage} />
       </div>
     </div>
   );
