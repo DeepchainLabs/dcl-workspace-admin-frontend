@@ -130,9 +130,9 @@ function CouponTable({ coupons }: { coupons: any[] }) {
                         >
                           <RemoveIcon />
                         </div>
-                        <div className="cursor-pointer">
+                        {/* <div className="cursor-pointer">
                           <EyeSvg />
-                        </div>
+                        </div> */}
                       </div>
                     )}
                   </td>

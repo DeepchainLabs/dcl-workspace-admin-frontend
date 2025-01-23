@@ -1,4 +1,6 @@
 "use client";
+import { AddButtonPlusIcon } from "@/svg/Crms/CommonIcons";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -32,14 +34,14 @@ export default function Tab() {
             Personal
           </div>
         </div>
-        {/* <div>
-            <Link href={"./subscription/create-plan"}>
-              <button className="flex items-center justify-center w-full sm:w-auto px-3 py-2 text-[14px] font-[600] bg-[#2377FC] text-white rounded-[8px] gap-2">
-                <AddButtonPlusIcon />
-                Add Plan
-              </button>
-            </Link>
-          </div> */}
+        <div>
+          <Link href={"./subscription/create-plan"}>
+            <button className="flex items-center justify-center w-full sm:w-auto px-3 py-2 text-[14px] font-[600] bg-[#2377FC] text-white rounded-[8px] gap-2">
+              <AddButtonPlusIcon />
+              Add Plan
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );
