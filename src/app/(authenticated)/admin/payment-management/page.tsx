@@ -36,7 +36,7 @@ export default async function PaymentManagement() {
     return extractError(error);
   });
 
-  console.log("paymentHistory", paymentHistory);
+  // console.log("paymentHistory", paymentHistory);
 
   return (
     <div>

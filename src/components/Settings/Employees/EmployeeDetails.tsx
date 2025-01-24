@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
+import { hasPermission } from "@/utils/checkPermission";
 
 export default function EmployeeDetails({
   show,
@@ -44,7 +45,7 @@ export default function EmployeeDetails({
     };
   }, [modalRef, closeMenu]);
 
-  console.log(employeeDetails);
+  // console.log(employeeDetails);
 
   return (
     <div
@@ -98,46 +99,50 @@ export default function EmployeeDetails({
                 <p className="text-[#A5B2CA] text-[16px] font-[500]">
                   General Information
                 </p>
-                <div
-                  onClick={() => {
-                    handleUpdate();
-                  }}
-                  className="flex gap-1 bg-[#F0F5FF] rounded-[8px] px-2 py-0.5 cursor-pointer"
-                >
-                  <p className="text-[#2377FC] text-[16px] font-[500]">Edit</p>
-                  <svg
-                    className="my-auto"
-                    width="12"
-                    height="13"
-                    viewBox="0 0 12 13"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                {hasPermission("MANAGE_EMPLOYEES") && (
+                  <div
+                    onClick={() => {
+                      handleUpdate();
+                    }}
+                    className="flex gap-1 bg-[#F0F5FF] rounded-[8px] px-2 py-0.5 cursor-pointer"
                   >
-                    <path
-                      d="M5.5 1.5H4.5C2 1.5 1 2.5 1 5V8C1 10.5 2 11.5 4.5 11.5H7.5C10 11.5 11 10.5 11 8V7"
-                      stroke="#2377FC"
-                      strokeWidth="1.125"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M8.01994 2.01061L4.07994 5.95061C3.92994 6.10061 3.77994 6.39561 3.74994 6.61061L3.53494 8.11561C3.45494 8.66061 3.83994 9.04061 4.38494 8.96561L5.88994 8.75061C6.09994 8.72061 6.39494 8.57061 6.54994 8.42061L10.4899 4.48061C11.1699 3.80061 11.4899 3.01061 10.4899 2.01061C9.48994 1.01061 8.69994 1.33061 8.01994 2.01061Z"
-                      stroke="#2377FC"
-                      strokeWidth="1.125"
-                      strokeMiterlimit="10"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M7.45508 2.5752C7.79008 3.7702 8.72508 4.7052 9.92508 5.0452"
-                      stroke="#2377FC"
-                      strokeWidth="1.125"
-                      strokeMiterlimit="10"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
+                    <p className="text-[#2377FC] text-[16px] font-[500]">
+                      Edit
+                    </p>
+                    <svg
+                      className="my-auto"
+                      width="12"
+                      height="13"
+                      viewBox="0 0 12 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.5 1.5H4.5C2 1.5 1 2.5 1 5V8C1 10.5 2 11.5 4.5 11.5H7.5C10 11.5 11 10.5 11 8V7"
+                        stroke="#2377FC"
+                        strokeWidth="1.125"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M8.01994 2.01061L4.07994 5.95061C3.92994 6.10061 3.77994 6.39561 3.74994 6.61061L3.53494 8.11561C3.45494 8.66061 3.83994 9.04061 4.38494 8.96561L5.88994 8.75061C6.09994 8.72061 6.39494 8.57061 6.54994 8.42061L10.4899 4.48061C11.1699 3.80061 11.4899 3.01061 10.4899 2.01061C9.48994 1.01061 8.69994 1.33061 8.01994 2.01061Z"
+                        stroke="#2377FC"
+                        strokeWidth="1.125"
+                        strokeMiterlimit="10"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M7.45508 2.5752C7.79008 3.7702 8.72508 4.7052 9.92508 5.0452"
+                        stroke="#2377FC"
+                        strokeWidth="1.125"
+                        strokeMiterlimit="10"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                )}
               </div>
 
               <div className="mt-4">

@@ -8,7 +8,7 @@ import { z } from "zod";
 export const getUserRoles = async (data: {
   userId: string;
 }): Promise<{ error?: string }> => {
-  console.log("data", data);
+  // console.log("data", data);
 
   const res = await getUserRoles({ userId: data.userId }).catch(extractError);
   if (typeof res === "string") {

@@ -4,12 +4,12 @@ export const zodErrorToFormError = (error: ZodError) =>
   Object.fromEntries(
     Object.entries(error.flatten().fieldErrors)
       .map(([k, v]) => [k, v?.join(", ")])
-      .filter(([_, v]) => !!v),
+      .filter(([_, v]) => !!v)
   ) as Record<string, string>;
 
 export const zodParse = <T extends ZodTypeAny>(
   schema: T,
-  data: unknown,
+  data: unknown
 ): { data: z.infer<T> } | { errors: Record<keyof z.infer<T>, string> } => {
   try {
     return { data: schema.parse(data) };
@@ -23,7 +23,7 @@ export const zodParse = <T extends ZodTypeAny>(
 
 export type PartialZodPropertiesWithError<
   FormDataSchema extends ZodTypeAny,
-  ResponseData,
+  ResponseData
 > = Partial<{
   success?: boolean;
   error?: string;
@@ -34,28 +34,28 @@ export type PartialZodPropertiesWithError<
 
 export type ZFormHandler<FormDataSchema extends ZodTypeAny, ResponseData> = (
   prevState: PartialZodPropertiesWithError<FormDataSchema, ResponseData>,
-  formData: FormData,
+  formData: FormData
 ) => Promise<PartialZodPropertiesWithError<FormDataSchema, ResponseData>>;
 
 export const createFormHandler = <
   FormDataSchema extends ZodTypeAny,
-  ResponseData,
+  ResponseData
 >(
   schema: FormDataSchema,
   handler: (
     data: z.output<FormDataSchema>,
     prevState: PartialZodPropertiesWithError<FormDataSchema, ResponseData>,
-    formData: FormData,
+    formData: FormData
   ) =>
     | PartialZodPropertiesWithError<FormDataSchema, ResponseData>
-    | Promise<PartialZodPropertiesWithError<FormDataSchema, ResponseData>>,
+    | Promise<PartialZodPropertiesWithError<FormDataSchema, ResponseData>>
 ): ZFormHandler<FormDataSchema, ResponseData> => {
   return async (prevState, formData) => {
     const rawData = Object.fromEntries(formData.entries());
     const data = Object.fromEntries(
       Object.entries(rawData)
         .filter(([_, v]) => !!v)
-        .filter(([_, v]) => !(v instanceof File) || v.size > 0),
+        .filter(([_, v]) => !(v instanceof File) || v.size > 0)
     );
     const validation = zodParse(schema, data);
     if ("errors" in validation) {
@@ -81,7 +81,7 @@ export const createFormHandler = <
 
 export const followsSchema = <T extends z.ZodTypeAny>(
   value: any,
-  schema: T,
+  schema: T
 ): value is z.infer<T> => schema.safeParse(value).success;
 
 export const modifyPayload =
@@ -90,7 +90,7 @@ export const modifyPayload =
     update: Record<
       string,
       string | Blob | { blobValue: Blob; filename?: string }
-    > = {},
+    > = {}
   ) =>
   (payload: FormData) => {
     for (const key in update) {

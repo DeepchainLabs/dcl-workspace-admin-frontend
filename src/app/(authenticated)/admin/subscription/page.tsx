@@ -19,7 +19,7 @@ export default async function SubscriptionPlans({ searchParams }: PageProps) {
       </div>
     );
 
-  console.log("plans", plans);
+  // console.log("plans", plans);
 
   return (
     <div>

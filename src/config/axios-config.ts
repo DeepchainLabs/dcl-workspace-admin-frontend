@@ -157,3 +157,14 @@ const getFormData = (object: any) =>
       );
     return formData;
   }, new FormData());
+
+export const getSocketOptions = async () => {
+  const cookie = await cookies();
+  const token = cookie.get(config.AUTH_COOKIE_KEY)?.value;
+  const userId = cookie.get(config.AUTH_USER_KEY)?.value;
+  const tenantId = cookie.get(config.AUTH_TENANT_KEY)?.value;
+  // const url = config.BACKEND_API_BASE_URL.split("/api").join("");
+  const url = config.BACKEND_API_BASE_URL;
+
+  return { url, token, userId, tenantId };
+};

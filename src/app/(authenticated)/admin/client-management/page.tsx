@@ -25,7 +25,7 @@ export default async function ClientManagement({ searchParams }: PageProps) {
   });
   if (typeof summary === "string") return <ErrorAllert message={summary} />;
 
-  console.log("summary", summary);
+  // console.log("summary", summary);
 
   return (
     <div className="">
