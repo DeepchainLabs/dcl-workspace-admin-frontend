@@ -1,6 +1,8 @@
 import DropDown from "@/components/Common/DropDown";
 import Invoices from "@/components/Dashboard/Invoices";
 import ModulePopularity from "@/components/Dashboard/ModulePopularity";
+import OrganizationRevenueStats from "@/components/Dashboard/OrganizationRevenueStats";
+import OrganizationUserStats from "@/components/Dashboard/OrganizationUserStats";
 import PlanPopularity from "@/components/Dashboard/PlanPopularity";
 import RenewalRate from "@/components/Dashboard/RenewalRate";
 import StatsCard from "@/components/Dashboard/StatsCard";
@@ -28,11 +30,7 @@ export default function Dashboard() {
               </div>
               <div className="p-6">
                 <p className="text-[#292D32] text-[16px] font-[600]">Organization</p>
-                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  <div><StatsCard number={20} bgColor={"#F0F5FF"} textColor={"#2377FC"} title={"Small Business"} svg={<UserIcon personal={false}></UserIcon>} small={true}></StatsCard></div>
-                  <div><StatsCard number={20} bgColor={"#F0F5FF"} textColor={"#2377FC"} title={"Medium Business"} svg={<UserIcon personal={false}></UserIcon>} small={true}></StatsCard></div>
-                  <div><StatsCard number={20} bgColor={"#F0F5FF"} textColor={"#2377FC"} title={"Large Business"} svg={<UserIcon personal={false}></UserIcon>} small={true}></StatsCard></div>
-                </div>
+                <OrganizationUserStats></OrganizationUserStats>
               </div>
               <div className="p-6">
                 <p className="text-[#292D32] text-[16px] font-[600]">Personal</p>
@@ -50,12 +48,8 @@ export default function Dashboard() {
                 </div>
               </div>
               <div className="p-6">
-              <p className="text-[#292D32] text-[16px] font-[600]">Organization</p>
-                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  <div><StatsCard number={"$2k"} bgColor={"#F0F5FF"} textColor={"#2377FC"} title={"Small Business"} svg={<RevenueIcon personal={false}></RevenueIcon>} small={true}></StatsCard></div>
-                  <div><StatsCard number={"$2k"} bgColor={"#F0F5FF"} textColor={"#2377FC"} title={"Medium Business"} svg={<RevenueIcon personal={false}></RevenueIcon>} small={true}></StatsCard></div>
-                  <div><StatsCard number={"$2k"} bgColor={"#F0F5FF"} textColor={"#2377FC"} title={"Large Business"} svg={<RevenueIcon personal={false}></RevenueIcon>} small={true}></StatsCard></div>
-                </div>
+                <p className="text-[#292D32] text-[16px] font-[600]">Organization</p>
+                <OrganizationRevenueStats></OrganizationRevenueStats>
               </div>
               <div className="p-6">
                 <p className="text-[#292D32] text-[16px] font-[600]">Personal</p>

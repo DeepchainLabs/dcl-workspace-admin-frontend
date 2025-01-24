@@ -10,9 +10,11 @@ import {
 
 ChartJS.register(ArcElement, Tooltip);
 
-export default function RenewalRateChart() {
-  const percentage = 78;
+interface RenewalRateChartProps {
+  percentage: number;
+}
 
+export default function RenewalRateChart({ percentage }: RenewalRateChartProps) {
   const data = {
     labels: [],
     datasets: [
@@ -28,11 +30,11 @@ export default function RenewalRateChart() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    rotation: -90, // Start angle
-    circumference: 180, // Half-circle
+    rotation: -90, 
+    circumference: 180, 
     plugins: {
       tooltip: {
-        enabled: false, // Disable tooltips for a clean look
+        enabled: false, 
       },
     },
   };

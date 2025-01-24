@@ -11,12 +11,12 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function SubscriptionCountChart() {
+export default function SubscriptionCountChart({ categories, counts, totalCount }: any) {
   const data = {
-    labels: ["Small Business", "Medium Business", "Large Business"],
+    labels: categories,
     datasets: [
       {
-        data: [30, 40, 30],
+        data: counts,
         backgroundColor: ["#2377FC", "#15BD6D", "#EBEBEB"],
         borderWidth: 0,
         hoverOffset: 10,
@@ -51,23 +51,20 @@ export default function SubscriptionCountChart() {
         <Doughnut data={data} options={options} />
         <div className="absolute flex flex-col justify-center items-center mt-[150px]">
           <div className="text-[16px] text-[#6F6F6F] font-[500]">Conversions</div>
-          <div className="text-[62px] text-[#2377FC] font-[700]">24</div>
+          <div className="text-[62px] text-[#2377FC] font-[700]">{totalCount}</div>
         </div>
       </div>
       <div className="flex justify-center w-full mt-6">
         <div className="flex flex-wrap items-center justify-center gap-6">
-          <div className="flex items-center gap-3">
-            <span className="w-5 h-5 rounded-full bg-[#2377FC]"></span>
-            <span className="text-[16px] text-[#292D32] font-[500]">Small Business</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="w-5 h-5 rounded-full bg-[#15BD6D]"></span>
-            <span className="text-[16px] text-[#292D32] font-[500]">Medium Business</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="w-5 h-5 rounded-full bg-[#EBEBEB]"></span>
-            <span className="text-[16px] text-[#292D32] font-[500]">Large Business</span>
-          </div>
+          {categories.map((category: any, index: number) => (
+            <div className="flex items-center gap-3" key={index}>
+              <span
+                className="w-5 h-5 rounded-full"
+                style={{ backgroundColor: data.datasets[0].backgroundColor[index] }}
+              ></span>
+              <span className="text-[16px] text-[#292D32] font-[500]">{category}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
