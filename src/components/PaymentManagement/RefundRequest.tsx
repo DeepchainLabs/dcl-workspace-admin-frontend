@@ -24,7 +24,7 @@ export default function RefundRequest({ requests }: any) {
   return (
     <div className="mt-12">
       <p className="text-[#292D32] text-[20px] font-[600]">Refund Requests</p>
-      <div className="overflow-x-auto mt-6">
+      <div className="overflow-x-auto mt-6 max-h-[400px] overflow-y-auto">
         <div className="bg-[#F6F6F6] w-full h-[45px] min-w-[1000px] grid grid-cols-10 px-4">
           <div className="col-span-1 my-auto">
             <p className="text-[#6F6F6F] text-[14px] font-[500]">Refund ID</p>
