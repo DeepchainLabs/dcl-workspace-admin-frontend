@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import UpdateScheduleModal from "./UpdateSheduleModal";
+// import UpdateScheduleModal from "./UpdateSheduleModal";
 
-function SupportCallRescheduleButton({call} : {call: any}) {
-    const [showModal, setShowModal] = useState(false);
+function SupportCallRescheduleButton({ call }: { call: any }) {
+  const [showModal, setShowModal] = useState(false);
   return (
     <div>
       <div
@@ -13,7 +13,7 @@ function SupportCallRescheduleButton({call} : {call: any}) {
       >
         <p className="my-auto">Reschedule</p>
       </div>
-      {showModal && <UpdateScheduleModal call = {call} setShow = {setShowModal} />}
+      {/* {showModal && <UpdateScheduleModal call={call} setShow={setShowModal} />} */}
     </div>
   );
 }

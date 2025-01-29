@@ -15,7 +15,6 @@ import TodaysAbsentIcon from "@/svg/Dashboard/TodaysAbsentIcon";
 import TodaysLeaveIcon from "@/svg/Dashboard/TodaysLeaveIcon";
 import EmployeeActivityLogTable from "./EmployeeActivityLogTable";
 import NoticeTab from "./NoticeTab";
-import InvoicesTable from "./InvoicesTable";
 import CommonlyUsedModuleTable from "./CommonlyUsedModuleTable";
 import CurrentlyRunningProjects from "./CurrentlyRunningProjects";
 import OrganizationAdminMeetings from "./OrganizationAdminMeetings";
@@ -165,9 +164,7 @@ export default function OrganizationAdmin() {
       </div> */}
       <div className="mt-16">
         <p className="text-[#292D32] text-[20px] font-[600]">Invoices</p>
-        <div className="mt-8">
-          <InvoicesTable />
-        </div>
+        <div className="mt-8">{/* <InvoicesTable /> */}</div>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mt-16">
         <div className="col-span-1 xl:col-span-2">

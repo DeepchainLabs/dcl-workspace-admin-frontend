@@ -34,7 +34,7 @@ export default function TableBody({ employees }: { employees: any }) {
           {employees.length > 0 &&
             employees?.map((item: any, index: number) => (
               <div
-                key={item?.id}
+                key={index}
                 onClick={() => {
                   setEmployeeId(item._id);
                   setOpenDetailsModal(true);
