@@ -15,7 +15,7 @@ FROM base as production
 
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.mjs ./next.config.mjs
+COPY --from=builder /app/next.config.ts ./next.config.ts
 
 EXPOSE 3000
 
