@@ -8,7 +8,7 @@ export type HandleEventFunc =
 
 export default function useSocketEvent(
   event: string,
-  handleEvent: HandleEventFunc,
+  handleEvent: HandleEventFunc
 ) {
   const socket = useSocket();
   useEffect(() => {

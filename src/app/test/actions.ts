@@ -11,7 +11,7 @@ export const handleIncrement = createFormHandler(
   }),
   async ({ counter, extra, somethingElse }) => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log({ extra, somethingElse });
+    // console.log({ extra, somethingElse });
     return { data: { counter: counter + 1 } };
-  },
+  }
 );

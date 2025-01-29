@@ -93,16 +93,16 @@ export default function EditPlanPage() {
   };
 
   const handleSave = () => {
-    console.log("Updated Plan Data:", {
-      id,
-      planName,
-      category,
-      description,
-      price,
-      freeForOneMonth,
-      selectedModules,
-      activeFeatures,
-    });
+    // console.log("Updated Plan Data:", {
+    //   id,
+    //   planName,
+    //   category,
+    //   description,
+    //   price,
+    //   freeForOneMonth,
+    //   selectedModules,
+    //   activeFeatures,
+    // });
 
     router.push("/admin/subscription");
   };

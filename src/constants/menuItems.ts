@@ -18,6 +18,7 @@ const MenuItems = [
     route: "/admin/dashboard",
     isExpandable: false,
     subItems: [],
+    permission: "",
   },
 
   {
@@ -26,6 +27,7 @@ const MenuItems = [
     route: "/admin/subscription",
     isExpandable: false,
     subItems: [],
+    permission: "",
   },
   {
     title: "Coupons",
@@ -33,6 +35,7 @@ const MenuItems = [
     route: "/admin/coupons",
     isExpandable: false,
     subItems: [],
+    permission: "",
   },
   {
     title: "Customer Support",
@@ -40,6 +43,7 @@ const MenuItems = [
     route: "/admin/customer-support",
     isExpandable: false,
     subItems: [],
+    permission: "",
   },
   {
     title: "Settings",
@@ -51,13 +55,18 @@ const MenuItems = [
         title: "Employees",
         route: "/employees",
         icon: EmployeesIcon,
+
+        permission: "",
       },
       {
         title: "Access Control",
         route: "/access-control",
         icon: AccessControlIcon,
+
+        permission: "",
       },
     ],
+    permission: "",
   },
 
   {
@@ -66,6 +75,7 @@ const MenuItems = [
     route: "/admin/client-management",
     isExpandable: false,
     subItems: [],
+    permission: "",
   },
   {
     title: "Platform Management",
@@ -73,6 +83,7 @@ const MenuItems = [
     route: "/admin/platform-management",
     isExpandable: false,
     subItems: [],
+    permission: "",
   },
   {
     title: "Payment Management",
@@ -80,6 +91,7 @@ const MenuItems = [
     route: "/admin/payment-management",
     isExpandable: false,
     subItems: [],
+    permission: "",
   },
 ];
 

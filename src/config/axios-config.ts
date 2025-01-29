@@ -7,8 +7,8 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 
 export const axiosInstance = axios.create({
-  baseURL: config.BACKEND_API_BASE_URL, //process.env.BACKEND_API_BASE_URL,
-  // baseURL: "http://localhost:5001/api",
+  // baseURL: config.BACKEND_API_BASE_URL, //process.env.BACKEND_API_BASE_URL,
+  baseURL: "http://localhost:5001/api",
 });
 
 export const getAxios = async <T extends z.ZodTypeAny>(
@@ -132,12 +132,12 @@ export const getFetch = async <T extends z.ZodTypeAny>(
     if (res.ok) {
       const resData = await res.json();
       if (responseSchema) {
-        const { error } = responseSchema.safeParse(resData);
-        if (error)
-          console.error(
-            `Response Validation Failed at ${method} ${u}: `,
-            error
-          );
+        // const { error } = responseSchema.safeParse(resData);
+        // if (error)
+        //   console.error(
+        //     `Response Validation Failed at ${method} ${u}: `,
+        //     error
+        //   );
         resolve(resData);
       } else resolve(resData);
     } else {
@@ -158,14 +158,13 @@ const getFormData = (object: any) =>
     return formData;
   }, new FormData());
 
-  export const getSocketOptions = async () => {
-    const cookie = cookies();
-    const token = (await cookie).get(config.AUTH_COOKIE_KEY)?.value;
-    const userId = (await cookie).get(config.AUTH_USER_KEY)?.value;
-    const tenantId = (await cookie).get(config.AUTH_TENANT_KEY)?.value;
-    // const url = config.BACKEND_API_BASE_URL.split("/api").join("");
-    const url = config.BACKEND_API_BASE_URL;
-  
-    return { url, token, userId, tenantId };
-  };
-  
+export const getSocketOptions = async () => {
+  const cookie = await cookies();
+  const token = cookie.get(config.AUTH_COOKIE_KEY)?.value;
+  const userId = cookie.get(config.AUTH_USER_KEY)?.value;
+  const tenantId = cookie.get(config.AUTH_TENANT_KEY)?.value;
+  // const url = config.BACKEND_API_BASE_URL.split("/api").join("");
+  const url = config.BACKEND_API_BASE_URL;
+
+  return { url, token, userId, tenantId };
+};

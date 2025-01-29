@@ -9,6 +9,7 @@ import {
   assignPermissionToRole,
   getModulePermissions,
 } from "@/resources/settings/accessControl.service";
+import { hasPermission } from "@/utils/checkPermission";
 
 interface Roles {
   _id: string;
@@ -109,64 +110,73 @@ export default function PermissionAssignmentToRole({
   };
 
   return (
-    <div>
-      <div className="mt-4 bg-[#FFFFFF] w-full h-[550px] border border-[#E5E9EB] rounded-[10px] py-4 px-6">
-        <div className="flex gap-8 mt-2">
-          <div className="mt-0">
-            <p className="text-[#344054] text-[16px] font-[500]">Role Name</p>
-            <div className="mt-4">
-              <DropDown
-                title="Select Role"
-                options={roles}
-                onChange={handleRoleChange}
-                width="220px"
-              />
-            </div>
-          </div>
-          <div className="mt-0">
-            <p className="text-[#344054] text-[16px] font-[500]">Module Name</p>
-            <div className="mt-4">
-              <PermissionsDropDown
-                title="Select Module"
-                options={modules}
-                onChange={handleModuleSelect}
-                width="220px"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-8 h-[300px] overflow-y-auto">
-          <div className="flex gap-8 flex-wrap ">
-            {permissionsList?.map((permission) => (
-              <div key={permission} className="flex items-center gap-4">
-                <input
-                  onChange={() => handlePermissionSelect(permission)}
-                  checked={assignedPermissions.includes(permission)}
-                  type="checkbox"
-                  className="form-checkbox appearance-none h-[16.5px] w-[16.5px] border border-[#0000008A] rounded-[4.52px] bg-white checked:bg-[#2563EB] checked:border-transparent focus:outline-none focus:ring-transparent focus:ring-offset-0 focus:ring-0"
-                />
-                <p className="text-[#333333] text-[16px] font-[500]">
-                  {formatPermission(permission)}
-                </p>
+    <>
+      {hasPermission("VIEW_ACCESS_CONTROL") &&
+        hasPermission("MANAGE_ACCESS_CONTROL") && (
+          <div>
+            <div className="mt-4 bg-[#FFFFFF] w-full h-[550px] border border-[#E5E9EB] rounded-[10px] py-4 px-6">
+              <div className="flex gap-8 mt-2">
+                <div className="mt-0">
+                  <p className="text-[#344054] text-[16px] font-[500]">
+                    Role Name
+                  </p>
+                  <div className="mt-4">
+                    <DropDown
+                      title="Select Role"
+                      options={roles}
+                      onChange={handleRoleChange}
+                      width="220px"
+                    />
+                  </div>
+                </div>
+                <div className="mt-0">
+                  <p className="text-[#344054] text-[16px] font-[500]">
+                    Module Name
+                  </p>
+                  <div className="mt-4">
+                    <PermissionsDropDown
+                      title="Select Module"
+                      options={modules}
+                      onChange={handleModuleSelect}
+                      width="220px"
+                    />
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="border-t border-[#E5E9EB] pt-6 flex justify-end gap-4 mt-8 mb-8">
-          <button
-            disabled={isLoading}
-            onClick={handleConfirm}
-            className="border border-[#2377FC] bg-[#2377FC] rounded-[6px] w-[140px] h-[38px] flex justify-center cursor-pointer"
-            style={{ opacity: isLoading ? 0.5 : 1 }}
-          >
-            <p className="text-[#FFFFFF] text-[16px] font-[500] my-auto">
-              {isLoading ? "Loading..." : "Confirm"}
-            </p>
-          </button>
-        </div>
-      </div>
-    </div>
+              <div className="mt-8 h-[300px] overflow-y-auto">
+                <div className="flex gap-8 flex-wrap ">
+                  {permissionsList?.map((permission) => (
+                    <div key={permission} className="flex items-center gap-4">
+                      <input
+                        onChange={() => handlePermissionSelect(permission)}
+                        checked={assignedPermissions.includes(permission)}
+                        type="checkbox"
+                        className="form-checkbox appearance-none h-[16.5px] w-[16.5px] border border-[#0000008A] rounded-[4.52px] bg-white checked:bg-[#2563EB] checked:border-transparent focus:outline-none focus:ring-transparent focus:ring-offset-0 focus:ring-0"
+                      />
+                      <p className="text-[#333333] text-[16px] font-[500]">
+                        {formatPermission(permission)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-[#E5E9EB] pt-6 flex justify-end gap-4 mt-8 mb-8">
+                <button
+                  disabled={isLoading}
+                  onClick={handleConfirm}
+                  className="border border-[#2377FC] bg-[#2377FC] rounded-[6px] w-[140px] h-[38px] flex justify-center cursor-pointer"
+                  style={{ opacity: isLoading ? 0.5 : 1 }}
+                >
+                  <p className="text-[#FFFFFF] text-[16px] font-[500] my-auto">
+                    {isLoading ? "Loading..." : "Confirm"}
+                  </p>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+    </>
   );
 }

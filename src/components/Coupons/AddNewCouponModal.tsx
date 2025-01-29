@@ -1,3 +1,4 @@
+"use client";
 import React, { useActionState, useEffect, useState } from "react";
 import Close from "@/svg/Subscription/Close";
 import DropDown from "@/components/Common/DropDown";
@@ -49,7 +50,7 @@ export default function AddNewCouponModal({ setShow }: any) {
     if (state?.error) {
       toast.error(extractError(state.error));
     }
-    console.log(state);
+    // console.log(state);
   }, [state, setShow]);
 
   return (
@@ -99,7 +100,7 @@ export default function AddNewCouponModal({ setShow }: any) {
                     selected={1}
                     options={[
                       { id: "PERCENTAGE", name: "Parcentage Based" },
-                      { id: "CLOSE", name: "Close" },
+                      { id: "FIXED", name: "Fixed" },
                     ]}
                     onChange={() => {}}
                     width="100%"

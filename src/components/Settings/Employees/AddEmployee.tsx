@@ -50,7 +50,7 @@ export default function AddEmployee({ show, setShow }: any) {
     if (state?.error) {
       toast.error(extractError(state.error));
     }
-    console.log(state);
+    // console.log(state);
   }, [state, closeMenu]);
 
   return (

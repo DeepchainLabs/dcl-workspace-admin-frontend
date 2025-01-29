@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 export default function PaymentHistoryTable({ history }: { history: any }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
       <div className="bg-[#F6F6F6] w-full h-[45px] min-w-[1000px] grid grid-cols-9 px-4">
         <div className="col-span-2 my-auto">
           <p className="text-[#6F6F6F] text-[14px] font-[500]">ID</p>
