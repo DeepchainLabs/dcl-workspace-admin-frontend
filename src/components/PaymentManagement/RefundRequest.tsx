@@ -2,25 +2,24 @@
 
 import ViewIcon from "@/svg/PaymentManagement/ViewIcon";
 import WriteMessageIcon from "@/svg/PaymentManagement/WriteMessageIcon";
-import StatusDropdown from "../Common/StatusDropdown";
-import { useState } from "react";
-import TransactionDetails from "./TransactionDetails";
-import { getRefundRequests } from "@/resources/payment/payment.service";
-import { extractError } from "@/utils/errors.utils";
 import StatusBadge from "../Common/StatusBadge";
 import dayjs from "dayjs";
+import { useState } from "react";
+import RefundDetailsModal from "./RefundDetailsModal";
 // import dynamic from "next/dynamic";
 // const ComposeEmail = dynamic(() => import("@/components/Email/ComposeEmail"), {
 //     ssr: false,
 //   });
 
 export default function RefundRequest({ requests }: any) {
-  const [showTransactionDetails, setShowTransactionDetails] = useState(false);
   const [composeEmail, setShowComposeEmail] = useState(false);
 
   const statuses = [
     { label: "Completed", style: "text-[#065F46] bg-[#D1FAE5]" },
   ];
+
+  const [selectedRefund, setSelectedRefund] = useState<any | null>(null);
+  const [showRefundModal, setShowRefundModal] = useState(false);
 
   return (
     <div className="mt-12">
@@ -61,7 +60,8 @@ export default function RefundRequest({ requests }: any) {
           >
             <div className="col-span-1 my-auto">
               <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500]">
-                {item?.charge_id.slice(0, 12)}
+                {item?._id?.slice(-6)}
+                {/* {item?.charge_id.slice(-6)} */}
               </p>
             </div>
             <div className="col-span-1 my-auto">
@@ -76,7 +76,7 @@ export default function RefundRequest({ requests }: any) {
             </div>
             <div className="col-span-2 my-auto">
               <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500]">
-                N/A
+                {item?.created_by?.email || "N/A"}
               </p>
             </div>
             <div className="col-span-1 my-auto">
@@ -85,37 +85,42 @@ export default function RefundRequest({ requests }: any) {
               </p>
             </div>
             <div className="col-span-1 my-auto">
-              {/* <StatusDropdown statuses={item?.status}></StatusDropdown> */}
+              {/* <StatusDropdown statuses={item?.status}></StatusDropdown>
+               */}
               <StatusBadge text={item?.status} />
             </div>
             <div className="col-span-1 my-auto">
               <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500]">
-                {item?.amount}
+                {item?.amount || 0}
               </p>
             </div>
             <div className="col-span-1 my-auto">
               <div className="flex items-center gap-4">
                 <div
                   className="cursor-pointer"
-                  onClick={() => setShowTransactionDetails(true)}
+                  onClick={() => {
+                    setSelectedRefund(item);
+                    setShowRefundModal(true);
+                  }}
                 >
-                  <ViewIcon></ViewIcon>
+                  <ViewIcon />
                 </div>
                 <div
                   className="cursor-pointer"
                   onClick={() => setShowComposeEmail(true)}
                 >
-                  <WriteMessageIcon></WriteMessageIcon>
+                  <WriteMessageIcon />
                 </div>
               </div>
             </div>
           </div>
         ))}
-        {showTransactionDetails && (
-          <TransactionDetails
-            isOpen={setShowTransactionDetails}
-          ></TransactionDetails>
-        )}
+
+        <RefundDetailsModal
+          isOpen={showRefundModal}
+          setOpen={setShowRefundModal}
+          refund={selectedRefund}
+        />
         {/* {composeEmail && <ComposeEmail setShow={setShowComposeEmail} />} */}
       </div>
     </div>

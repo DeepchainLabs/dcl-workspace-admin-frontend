@@ -1,5 +1,6 @@
 import { getFetch } from "@/config/axios-config";
 import { z } from "zod";
+import { paginationMetaSchema } from "@/schema/common";
 
 export const getRefundRequests = () =>
   getFetch(
@@ -10,17 +11,28 @@ export const getRefundRequests = () =>
     z.array(z.object({}))
   );
 
-export const updateRefundStatus = () =>
-  getFetch(
+export async function updateRefundStatus(
+  refundId: string,
+  acceptOrReject: "ACCEPTED" | "REJECTED",
+  cancelRunningSubscription: boolean
+) {
+  const schema = z.object({
+    success: z.boolean(),
+    message: z.string().optional(),
+  });
+
+  return await getFetch(
     {
-      url: "/admin/refund-management/accept-or-reject",
-      method: "get",
+      url: `/admin/refund-management/accept-or-reject/${refundId}`,
+      method: "patch",
+      data: {
+        acceptOrReject,
+        cancelRunningSubscription,
+      },
     },
-    z.object({
-      success: z.boolean(),
-      message: z.string().optional(),
-    })
+    schema
   );
+}
 
 export const getTransactionCount = () =>
   getFetch(
@@ -74,3 +86,17 @@ export const getPaymentHistory = () =>
     },
     z.array(z.object({}))
   );
+
+export async function getInvoiceByChargeId(chargeId: string) {
+  const invoiceSchema = z.array(z.any());
+
+  const allInvoices = await getFetch(
+    {
+      url: "/dashboard/saas-admin/invoices",
+      method: "get",
+    },
+    invoiceSchema
+  );
+
+  return allInvoices.find((inv: any) => inv.charge === chargeId) || null;
+}

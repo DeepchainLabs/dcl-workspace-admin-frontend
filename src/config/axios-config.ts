@@ -7,8 +7,8 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 
 export const axiosInstance = axios.create({
-  baseURL: config.BACKEND_API_BASE_URL, //process.env.BACKEND_API_BASE_URL,
-  // baseURL: "http://localhost:5001/api",
+  // baseURL: config.BACKEND_API_BASE_URL, //process.env.BACKEND_API_BASE_URL,
+  baseURL: "http://localhost:5001/api",
 });
 
 export const getAxios = async <T extends z.ZodTypeAny>(
