@@ -132,12 +132,12 @@ export const getFetch = async <T extends z.ZodTypeAny>(
     if (res.ok) {
       const resData = await res.json();
       if (responseSchema) {
-        const { error } = responseSchema.safeParse(resData);
-        if (error)
-          console.error(
-            `Response Validation Failed at ${method} ${u}: `,
-            error
-          );
+        // const { error } = responseSchema.safeParse(resData);
+        // if (error)
+        //   console.error(
+        //     `Response Validation Failed at ${method} ${u}: `,
+        //     error
+        //   );
         resolve(resData);
       } else resolve(resData);
     } else {
