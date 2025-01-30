@@ -14,7 +14,7 @@ export default function AuthRightImage() {
           </p>
         </div>
         <div className="mt-5 flex justify-center items-center">
-          <AuthSVG />
+          {/* <AuthSVG /> */}
         </div>
       </div>
     </div>
