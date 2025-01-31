@@ -1,8 +1,7 @@
+import { myCapabilities } from "@/resources/auth/auth.service";
 import React from "react";
-import NavMenu from "./NavMenu";
 import Header from "./Header";
-import { getLoggedInUser, myCapabilities } from "@/resources/auth/auth.service";
-import { redirect } from "next/navigation";
+import NavMenu from "./NavMenu";
 
 export default async function AuthenticatedLayout({
   children,
@@ -11,9 +10,9 @@ export default async function AuthenticatedLayout({
 }) {
   // let permissions: any;
   let capabilities: any;
-  const user = await getLoggedInUser().catch(() => null);
+  // const user = await getLoggedInUser().catch(() => null);
   // console.log("public", { user });
-  if (!user) return redirect(`/auth/login`);
+  // if (!user) return redirect(`/auth/login`);
 
   const permissions = await myCapabilities();
   // permissions = [
