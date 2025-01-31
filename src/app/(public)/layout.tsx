@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 
+export const dynamic = "force-dynamic";
+
 export default async function PublicLayout({
   children,
 }: Readonly<{
