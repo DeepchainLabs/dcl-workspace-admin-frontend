@@ -7,8 +7,8 @@ services:
     container_name: dcl-workspace-admin-frontend
     restart: always
     tty: true
-    # ports:
-    #   - 5016:3000
+    ports:
+      - 3006:3000
     networks:
       - app-network
 networks:
