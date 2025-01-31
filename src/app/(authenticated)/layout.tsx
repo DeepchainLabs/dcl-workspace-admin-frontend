@@ -1,9 +1,8 @@
-import React from "react";
-import { Metadata } from "next";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout/AuthenticatedLayout";
-import { Toaster } from "react-hot-toast";
 import { getLoggedInUser } from "@/resources/auth/auth.service";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,5 +17,6 @@ export default async function AuthenticatedGroupLayout({
   const user = await getLoggedInUser().catch(() => null);
   console.log("AuthenticatedLayout Logged In User : ", user);
   if (!user) return redirect(`/auth/login`);
+  if (1) return <div>Authenticated Layout</div>;
   return <AuthenticatedLayout>{children}</AuthenticatedLayout>;
 }
