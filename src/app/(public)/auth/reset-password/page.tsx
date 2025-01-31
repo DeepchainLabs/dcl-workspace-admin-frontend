@@ -3,9 +3,9 @@ import ResetPasswordForm from "@/components/Auth/ResetPasswordForm";
 import { PageProps } from "@/interfaces/pageProps.interface";
 import React from "react";
 
-export default function ResetPasswordPage({ searchParams }: PageProps) {
-  const user_id = searchParams.user_id || "";
-  const code = searchParams.code || "";
+export default async function ResetPasswordPage({ searchParams }: PageProps) {
+  const user_id = await searchParams.then((sp) => sp.user_id || "");
+  const code = await searchParams.then((sp) => sp.code || "");
   return (
     <div className="bg-[#FEFEFE] w-full grid col-span-1 lg:grid-cols-2 lg:gap-10">
       <div className="col-span-1 px-4 sm:px-10 py-5">

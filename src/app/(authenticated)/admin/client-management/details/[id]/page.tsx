@@ -1,8 +1,6 @@
 import ClientDetails from "@/components/ClientManagement/ClientDetails";
-import { PageProps } from "@/interfaces/pageProps.interface";
 
-export default async function Details({ searchParams }: PageProps) {
-  const tab = searchParams.tab || "personal";
+export default function Details() {
   return (
     <div className="">
       <div className="border-b border-[#E5E9EB] h-[70px] px-4 lg:px-8">

@@ -5,8 +5,8 @@ import { PageProps } from "@/interfaces/pageProps.interface";
 import React from "react";
 
 export default async function Employees({ searchParams }: PageProps) {
-  const status = searchParams.status || "all";
-  const viewType = searchParams.view_type || "list";
+  const status = await searchParams.then((sp) => sp.status || "all");
+  const viewType = await searchParams.then((sp) => sp.view_type || "list");
 
   return (
     <div>

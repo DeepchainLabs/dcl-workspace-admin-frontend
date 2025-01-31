@@ -17,8 +17,6 @@ export default async function AuthenticatedGroupLayout({
   children: React.ReactNode;
 }>) {
   const user = await getLoggedInUser().catch(() => null);
-  console.log("AuthenticatedLayout Logged In User : ", user);
-  // if (1) return <div>Authenticated Layout</div>;
   if (!user) return redirect(`/auth/login`);
   return <AuthenticatedLayout>{children}</AuthenticatedLayout>;
 }

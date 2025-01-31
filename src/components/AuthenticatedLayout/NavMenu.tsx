@@ -12,7 +12,7 @@ interface NavMenuProps {
 export default function NavMenu({ permissions }: NavMenuProps) {
   const pathname = usePathname();
   const [selectedMenuItem, setSelectedMenuItem] = useState<any>();
-  const [menuItems, setMenuItems] = useState(MenuItems);
+  // const [menuItems, setMenuItems] = useState(MenuItems);
 
   useEffect(() => {
     if (permissions?.length > 0) {
@@ -21,18 +21,18 @@ export default function NavMenu({ permissions }: NavMenuProps) {
   }, [permissions]);
 
   useEffect(() => {
-    const activeItem = menuItems.find(
+    const activeItem = MenuItems.find(
       (item) =>
         item.route === pathname ||
         (item.isExpandable &&
           item.subItems.some((subItem) =>
-            pathname.startsWith(item.route + subItem.route)
-          ))
+            pathname.startsWith(item.route + subItem.route),
+          )),
     );
     if (activeItem) {
       setSelectedMenuItem(activeItem);
     }
-  }, [pathname, menuItems]);
+  }, [pathname]);
 
   const handleMenuItemClick = (menuItem: any) => {
     if (menuItem.title === selectedMenuItem?.title) {
@@ -44,11 +44,11 @@ export default function NavMenu({ permissions }: NavMenuProps) {
 
   return (
     <div className="w-[240px] h-[calc(100vh-74px)] overflow-y-auto scrollbar-none border-r border-[#E5E9EB] px-2 py-4 space-y-2 hidden lg:block">
-      {menuItems.map((item, index) => {
+      {MenuItems.map((item, index) => {
         const Icon: any = item.icon;
         const isSubItemActive = item.isExpandable
           ? item.subItems.some((subItem) =>
-              pathname.startsWith(item.route + subItem.route)
+              pathname.startsWith(item.route + subItem.route),
             )
           : false;
 
@@ -130,7 +130,7 @@ export default function NavMenu({ permissions }: NavMenuProps) {
                 {item?.subItems.map((subItem, subIndex) => {
                   const SubIcon = subItem.icon;
                   const isSubActive = pathname.startsWith(
-                    item.route + subItem.route
+                    item.route + subItem.route,
                   );
                   if (
                     subItem.permission &&

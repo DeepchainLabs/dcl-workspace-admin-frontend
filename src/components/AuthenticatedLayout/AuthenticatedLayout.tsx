@@ -2,6 +2,8 @@ import { myCapabilities } from "@/resources/auth/auth.service";
 import React from "react";
 import Header from "./Header";
 import NavMenu from "./NavMenu";
+// import dynamic from "next/dynamic";
+// const NavMenu = dynamic(() => import("./NavMenu"), { ssr: false });
 
 export default async function AuthenticatedLayout({
   children,

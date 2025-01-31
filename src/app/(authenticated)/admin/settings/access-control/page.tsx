@@ -5,8 +5,8 @@ import React from "react";
 import Permissions from "@/components/Settings/AccessControl/Permission/Permissions";
 import { PageProps } from "@/interfaces/pageProps.interface";
 
-export default function AccessControl({ searchParams }: PageProps) {
-  const activeTab = searchParams.tab || "roles";
+export default async function AccessControl({ searchParams }: PageProps) {
+  const activeTab = await searchParams.then((sp) => sp.tab || "roles");
   return (
     <main className="">
       <div className="border-b border-[#E5E9EB] min-h-[76px]">

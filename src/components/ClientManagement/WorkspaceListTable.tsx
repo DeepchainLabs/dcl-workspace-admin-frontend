@@ -1,14 +1,8 @@
 "use client";
-import React from "react";
-import DropDown from "@/components/Common/DropDown";
-import { clients, workspaces } from "@/contents/Admin/Workspace";
-import StatusBadge from "@/components/Common/StatusBadge";
-import ActionMenuForClientManagement from "./ActionMenuForClientManagement";
 import EyeSvg from "@/svg/Admin/EyeSvg";
-import WorkspaceToggle from "./Workspace/WorkspaceToggle";
-import ToggleMini from "./TooglelMini";
-import { useRouter } from "next/navigation";
 import { hasPermission } from "@/utils/checkPermission";
+import { useRouter } from "next/navigation";
+import ToggleMini from "./TooglelMini";
 
 function WorkspaceListTable({ clients }: { clients: any }) {
   const router = useRouter();
@@ -118,7 +112,7 @@ function WorkspaceListTable({ clients }: { clients: any }) {
                       {item.name}
                     </td>
                     <td className="border-b border-[#EAECF0] p-4">
-                      {item.created_by.first_name} {item.created_by.last_name}
+                      {item.created_by?.first_name} {item.created_by?.last_name}
                     </td>
                     <td className="border-b border-[#EAECF0] p-4">
                       {item.subscription ? item.subscription.package : "N/A"}

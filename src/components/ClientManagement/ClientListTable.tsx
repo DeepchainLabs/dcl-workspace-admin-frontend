@@ -1,13 +1,12 @@
 "use client";
-import React, { useState } from "react";
 import DropDown from "@/components/Common/DropDown";
-import { clients } from "@/contents/Admin/Workspace";
 import StatusBadge from "@/components/Common/StatusBadge";
+import { clients } from "@/contents/Admin/Workspace";
+import { hasPermission } from "@/utils/checkPermission";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import ActionMenuForClientManagement from "./ActionMenuForClientManagement";
 import TemporaryPasswordModal from "./TemporaryPasswordModal";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { hasPermission } from "@/utils/checkPermission";
 
 function ClientListTable() {
   const actionMenuOptionsForClientListTable = (id: number) => [
@@ -37,7 +36,7 @@ function ClientListTable() {
   return (
     <>
       {hasPermission("VIEW_WORKSPACES") && (
-        <div>
+        <div suppressHydrationWarning>
           <div className="flex justify-between mt-6">
             <p className="text-[20px] font-[700] my-auto">List of Clients</p>
             <div className="flex gap-4 w-auto">

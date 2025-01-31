@@ -3,17 +3,15 @@ import ClientListTable from "@/components/ClientManagement/ClientListTable";
 import ClientListTableHeader from "@/components/ClientManagement/ClientListTableHeader";
 import WorkspaceListTable from "@/components/ClientManagement/WorkspaceListTable";
 import ErrorAllert from "@/components/Common/ErrorAllert";
-import { clientData } from "@/contents/Admin/Workspace";
 import { PageProps } from "@/interfaces/pageProps.interface";
 import {
   getAllClients,
   getClientsSummary,
 } from "@/resources/client-management/clientManagement.service";
 import { extractError } from "@/utils/errors.utils";
-import React from "react";
 
 export default async function ClientManagement({ searchParams }: PageProps) {
-  const tab = searchParams.tab || "workspace";
+  const tab = await searchParams.then((sp) => sp.tab || "workspace");
 
   const clients = await getAllClients().catch((error) => {
     return extractError(error);
