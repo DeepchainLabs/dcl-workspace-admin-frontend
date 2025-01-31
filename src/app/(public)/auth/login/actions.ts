@@ -23,26 +23,28 @@ export const handleLogin = createFormHandler(
   }),
   async ({ email, password }) => {
     const res = await login({ usernameOrEmail: email, password }).catch(
-      extractError
+      extractError,
     );
     if (typeof res === "string") return { error: res };
     if (res.token && !res?.require_2fa) {
       const cookie = await cookies();
       cookie.set(config.AUTH_COOKIE_KEY, res.token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        // secure: process.env.NODE_ENV === "production",
+        secure: false,
         sameSite: "strict",
       });
       cookie.set(config.AUTH_USER_KEY, res.user_id, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        // secure: process.env.NODE_ENV === "production",
+        secure: false,
         sameSite: "strict",
       });
       redirect(`/admin/dashboard`);
     }
 
     return { data: res };
-  }
+  },
 );
 
 export const handle2FALogin = createFormHandler(
@@ -65,17 +67,19 @@ export const handle2FALogin = createFormHandler(
     const cookie = await cookies();
     cookie.set(config.AUTH_COOKIE_KEY, res.token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      // secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "strict",
     });
     cookie.set(config.AUTH_USER_KEY, res.user_id, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      // secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "strict",
     });
 
     return { data: res };
-  }
+  },
 );
 
 export const handleSendResetPasswordEmail = createFormHandler(
@@ -95,5 +99,5 @@ export const handleSendResetPasswordEmail = createFormHandler(
     } else {
       return {};
     }
-  }
+  },
 );
