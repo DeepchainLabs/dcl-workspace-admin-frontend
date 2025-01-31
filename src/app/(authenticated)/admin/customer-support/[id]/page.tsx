@@ -54,7 +54,7 @@ export default async function CustomerSupportDetails({
                   </div>
                   <div className="space-y-0">
                     <p className="text-[#292D32] text-[16px] font-[500]">
-                      {ticket.createdBy.first_name}
+                      {ticket.createdBy?.first_name}
                     </p>
                     <p className="text-[#A5B2CA] text-[16px] font-[500]">
                       Created a ticket | {ticket.category}
@@ -130,9 +130,11 @@ export default async function CustomerSupportDetails({
               </div>
               <div className="space-y-0">
                 <p className="text-[#292D32] text-[16px] font-[500]">
-                  {ticket.createdBy.first_name +
+                  {(
+                    (ticket.createdBy?.first_name || "") +
                     " " +
-                    ticket.createdBy.last_name}
+                    (ticket.createdBy?.last_name || "")
+                  ).trim()}
                 </p>
                 <p className="text-[#A5B2CA] text-[16px] font-[500]">
                   Created a ticket
