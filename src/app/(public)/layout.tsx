@@ -9,7 +9,7 @@ export default async function PublicLayout({
   children: React.ReactNode;
 }>) {
   const user = await getLoggedInUser().catch(() => null);
-  // console.log("Public Layout Logged In User : ", user);
+  console.log("Public Layout Logged In User : ", user);
   // if (1) return <div>Public Layout</div>;
   if (user) return redirect(`/admin/dashboard`);
   return (
