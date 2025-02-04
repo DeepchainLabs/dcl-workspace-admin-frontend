@@ -3,7 +3,7 @@ import StatusBadge from "@/components/Common/StatusBadge";
 import SupportCallTableAdmin from "@/components/Support/admin/SupportCallTableAdmin";
 import SupportTicketsTableAdmin from "@/components/Support/admin/SupportTicketsTableAdmin";
 import { SupportTicketOverview } from "@/interfaces/Support";
-import { getSupportTicketsOverview } from "@/support/customer-support.service";
+import { getSupportTicketsOverview } from "@/resources/support/customer-support.service";
 import { extractError } from "@/utils/errors.utils";
 import Link from "next/link";
 import React from "react";
