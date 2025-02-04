@@ -1,6 +1,6 @@
 "use server";
 import { CategoryEnum, ServiceEnum } from "@/contents/Support/contents";
-import { createCall, createTicket, deleteCall, getAvailableSlots, updateCall } from "@/support/customer-support.service";
+import { createCall, createTicket, deleteCall, getAvailableSlots, updateCall } from "@/resources/support/customer-support.service";
 import { extractError } from "@/utils/errors.utils";
 import { createFormHandler } from "@/utils/zod.utils";
 import { revalidateTag } from "next/cache";

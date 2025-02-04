@@ -1,7 +1,7 @@
 "use client";
 
 import useSocketEvent from "@/hooks/useSocketEvent";
-import { revalidateSupportChats } from "@/support/customer-support.service";
+import { revalidateSupportChats } from "@/resources/support/customer-support.service";
 
 export default function RevalidateSupportChatEvent() {
   useSocketEvent("NEW_SUPPORT_MESSAGE", (args) => {

@@ -1,4 +1,3 @@
-import DropDown from "@/components/Common/DropDown";
 import ErrorAllert from "@/components/Common/ErrorAllert";
 import ActionTab from "@/components/Support/ActionTab";
 import TicketAdminActions from "@/components/Support/admin/TicketAdminActions.";
@@ -7,9 +6,8 @@ import { Ticket } from "@/interfaces/Support";
 import { extractError } from "@/utils/errors.utils";
 import Image from "next/image";
 import React from "react";
-import { getTicketById } from "@/support/customer-support.service";
+import { getTicketById } from "@/resources/support/customer-support.service";
 import { getEmployess } from "@/resources/settings/employee.service";
-import RevalidateSupportChatEvent from "./RevalidateSupportChatEvent";
 
 export default async function CustomerSupportDetails({
   params,
@@ -57,7 +55,7 @@ export default async function CustomerSupportDetails({
                       {ticket.createdBy?.first_name}
                     </p>
                     <p className="text-[#A5B2CA] text-[16px] font-[500]">
-                      Created a ticket | {ticket.category}
+                      Created a ticket | {ticket.category} | {ticket.tenant.name}
                     </p>
                   </div>
                 </div>
@@ -156,6 +154,14 @@ export default async function CustomerSupportDetails({
               </p>
               <p className="text-[#292D32] text-[16px] font-[500]">
                 {ticket.createdBy.phone}
+              </p>
+            </div>
+            <div className="mt-4 border-b border-[#E5E9EB] pb-5  pl-6">
+              <p className="text-[#6F6F6F] text-[16px] font-[500] mb-0">
+                Tenant
+              </p>
+              <p className="text-[#292D32] text-[16px] font-[500]">
+                {ticket.tenant.name}
               </p>
             </div>
 

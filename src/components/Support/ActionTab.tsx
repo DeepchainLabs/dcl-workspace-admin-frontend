@@ -4,7 +4,7 @@ import TicketForwardModal from "./TicketForwardModal";
 import AddTicketNote from "./AddNote";
 import DropDown from "../Common/DropDown";
 import Forward from "@/svg/Support/Forward";
-import { changeStatus } from "@/support/customer-support.service";
+import { changeStatus } from "@/resources/support/customer-support.service";
 import { Ticket } from "@/interfaces/Support";
 import toast from "react-hot-toast";
 import AddNote from "@/svg/Support/AddNote";
@@ -15,7 +15,7 @@ function ActionTab({ ticket }: { ticket: Ticket }) {
   const [openForward, setOpenForward] = React.useState(false);
 
   const handleStatusChange = (status: string) => {
-    const res = changeTicketStatus(ticket._id, status, ticket.tenant);
+    const res = changeTicketStatus(ticket._id, status, ticket.tenant._id);
     if (typeof res === "string")  toast.error("Failed to Update");
     else  toast.success("Ticket Status Updated");
   };

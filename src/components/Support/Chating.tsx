@@ -5,17 +5,19 @@ import AddAttachment from "@/svg/Support/AddAttachment";
 import AddFileSvg from "@/svg/Support/AddFileSvg";
 import MessageSendSvg from "@/svg/Support/MessageSendSvg";
 import { useParams } from "next/navigation";
-import { SupportChat, Ticket } from "@/interfaces/Support";
-import { createChat, getChatHistory } from "@/support/customer-support.service";
+import {
+  createChat,
+  getChatHistory,
+} from "@/resources/support/customer-support.service";
 import toast from "react-hot-toast";
 import useSocketEvent from "@/hooks/useSocketEvent";
+import { SupportChat, Ticket } from "@/interfaces/Support";
 export default function Chating({ ticket }: { ticket: Ticket }) {
   const { user } = useParams();
   // const { workspace } = useParams();
   const [chats, setChat] = useState<SupportChat[]>([]);
   const [message, setMessage] = useState<string>("");
   const scrollableDivRef = useRef<HTMLDivElement>(null);
-
 
   const handleSendMessage = async () => {
     if (message === "") {
@@ -29,8 +31,8 @@ export default function Chating({ ticket }: { ticket: Ticket }) {
 
   const getSupportChat = async () => {
     const chats = await getChatHistory({ ticket: ticket._id });
-    console.log(chats);
-    setChat(chats as any);
+    setChat(chats as unknown as SupportChat[]);
+    console.log("Chat History : ", chats);
   };
 
   useEffect(() => {
@@ -43,7 +45,8 @@ export default function Chating({ ticket }: { ticket: Ticket }) {
 
   useEffect(() => {
     if (scrollableDivRef.current) {
-      scrollableDivRef.current.scrollTop = scrollableDivRef.current.scrollHeight;
+      scrollableDivRef.current.scrollTop =
+        scrollableDivRef.current.scrollHeight;
     }
   }, [chats]);
 
@@ -52,14 +55,20 @@ export default function Chating({ ticket }: { ticket: Ticket }) {
     getSupportChat();
   });
 
+  const handleKeyPress = (event: any) => {
+    if (event.key === "Enter") {
+      handleSendMessage();
+    }
+  };
+
   return (
     <div>
       {" "}
       <div
-        className="mt-6 space-y-4 h-[320px] overflow-y-auto pr-4"
+        className="mt-6 space-y-4 h-[calc(100vh-25vh)] overflow-y-auto pr-4"
         ref={scrollableDivRef}
       >
-        {chats.length === 0 || !chats ? (
+        {chats.length === 0 ? (
           <div className="my-auto">
             <p className="text-[#292D32] group-hover:text-[#2377FC] text-[20px] font-[500] text-center py-4 border-b border-[#E5E9EB]">
               {"No chats history found. Send a chat first."}
@@ -120,25 +129,32 @@ export default function Chating({ ticket }: { ticket: Ticket }) {
         )}
       </div>
       <div className="mt-4">
-        <div className="bg-[#F8F8F8] rounded-[7px] border border-[#E5E9EB] min-h-[44px] relative flex items-center">
-          <div className="absolute top-[11.5px] left-[10px]">
-            <AddFileSvg />
-          </div>
-          <input
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            type="text"
-            className="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none pl-[40px] pr-[40px] text-[16px] font-[500] text-[#4b4b4b] placeholder-gray-500"
-            placeholder="Type your message..."
-          />
+        {ticket.status === "Resolved" ? (
+          <p className="text-[#6F6F6F] text-[15px] font-[600] text-center w-full">
+            This ticket is already resolved. Thanks!
+          </p>
+        ) : (
+          <div className="bg-[#F8F8F8] rounded-[7px] border border-[#E5E9EB] min-h-[44px] relative flex items-center">
+            <div className="absolute top-[11.5px] left-[10px]">
+              <AddFileSvg />
+            </div>
+            <input
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              type="text"
+              onKeyDown={handleKeyPress}
+              className="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none pl-[40px] pr-[40px] text-[16px] font-[500] text-[#4b4b4b] placeholder-gray-500"
+              placeholder="Type your message..."
+            />
 
-          <div
-            onClick={handleSendMessage}
-            className="absolute top-[12px] right-[12px] cursor-pointer"
-          >
-            <MessageSendSvg />
+            <div
+              onClick={handleSendMessage}
+              className="absolute top-[12px] right-[12px] cursor-pointer"
+            >
+              <MessageSendSvg />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

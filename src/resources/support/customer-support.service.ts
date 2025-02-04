@@ -19,7 +19,7 @@ export const getMySupportTickets = async () => {
 export const getSupportTickets = async () => {
   const res = await getFetch(
     {
-      url: "/admin-support/ticket?relations=assignee,createdBy",
+      url: "/admin-support/ticket?relations=assignee,createdBy,tenant",
       method: "get",
     },
     z.array(z.object({})),
@@ -56,7 +56,7 @@ export const getTicketById = async (data: { id: string }) => {
   const { id } = data;
   const res = await getFetch(
     {
-      url: `/admin-support/ticket/${id}?relations=assignee,createdBy`,
+      url: `/admin-support/ticket/${id}?relations=assignee,createdBy,tenant`,
       method: "get",
       data,
     },
