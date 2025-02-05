@@ -24,7 +24,7 @@ export default function Chating({ ticket }: { ticket: Ticket }) {
       toast.error("Type something first");
       return;
     }
-    await createChat({ message, ticket: ticket._id, tenant: ticket.tenant });
+    await createChat({ message, ticket: ticket._id, tenant: ticket.tenant._id });
     setMessage("");
     await getSupportChat();
   };
