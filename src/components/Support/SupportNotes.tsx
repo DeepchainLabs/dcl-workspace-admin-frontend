@@ -5,7 +5,7 @@ import DeleteNote from "@/svg/Support/DeleteNote";
 import {
   deleteNote,
   getSupportNote,
-} from "@/support/customer-support.service";
+} from "@/resources/support/customer-support.service";
 import ErrorAllert from "../Common/ErrorAllert";
 import { extractError } from "@/utils/errors.utils";
 import toast from "react-hot-toast";

@@ -13,26 +13,26 @@ import toast from "react-hot-toast";
 function TicketAdminActions({ ticket, users }: { ticket: Ticket; users: any }) {
   // console.log(ticket, users);
   const handleServiceChange = (service: string) => {
-    const res = changeTicketService(ticket._id, service, ticket.tenant);
+    const res = changeTicketService(ticket._id, service, ticket.tenant._id);
     if (typeof res === "string") toast.error("Failed to Update");
     else toast.success("Ticket Service Updated");
   };
 
   const handlePriorityChange = (priority: string) => {
-    const res = changeTicketPriority(ticket._id, priority, ticket.tenant);
+    const res = changeTicketPriority(ticket._id, priority, ticket.tenant._id);
     if (typeof res === "string") toast.error("Failed to Update");
     else toast.success("Ticket Priority Updated");
   };
 
   const handleAssigneeChange = (user: string) => {
-    const res = changeTicketAssignee(ticket._id, user, ticket.tenant);
+    const res = changeTicketAssignee(ticket._id, user, ticket.tenant._id);
     if (typeof res === "string") toast.error("Failed to Update");
     else toast.success("Ticket Assignee Updated");
   };
 
   const handleStatusChange = (status: string) => {
     console.log(ticket);
-    const res = changeTicketStatus(ticket._id, status, ticket.tenant);
+    const res = changeTicketStatus(ticket._id, status, ticket.tenant._id);
     if (typeof res === "string") toast.error("Failed to Update");
     else toast.success("Ticket Status Updated");
   };

@@ -1,5 +1,5 @@
 "use server"
-import { changeAssignee, changePriority, changeService, changeStatus, createSupportNote, createTicket, deleteNote, updateNote } from "@/support/customer-support.service";
+import { changeAssignee, changePriority, changeService, changeStatus, createSupportNote, createTicket, deleteNote, updateNote } from "@/resources/support/customer-support.service";
 import { extractError } from "@/utils/errors.utils";
 import { createFormHandler } from "@/utils/zod.utils";
 import { revalidateTag } from "next/cache";

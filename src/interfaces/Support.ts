@@ -8,7 +8,7 @@ export interface Ticket {
   description: string;
   status: string;
   assignee: any;
-  tenant: string;
+  tenant: any;
   date: string;
   created_at: string;
   updated_at: string;

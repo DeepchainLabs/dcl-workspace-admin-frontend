@@ -2,7 +2,7 @@ import ErrorAllert from "@/components/Common/ErrorAllert";
 import {
     deleteCall,
     getMySupportCalls,
-  } from "@/support/customer-support.service";
+  } from "@/resources/support/customer-support.service";
   import { extractError } from "@/utils/errors.utils";
   import React, { Suspense } from "react";
   import toast from "react-hot-toast";
@@ -21,19 +21,19 @@ import SupportCallDeleteButton from "../SupportCallDeleteButton";
             <div className="col-span-1 my-auto">
               <p className="text-[#6F6F6F] text-[16px] font-[500]">SL</p>
             </div>
-            <div className="col-span-2 my-auto">
+            <div className="col-span-3 my-auto">
               <p className="text-[#6F6F6F] text-[16px] font-[500]">TITLE</p>
             </div>
-            <div className="col-span-2 my-auto">
+            <div className="col-span-4 my-auto">
               <p className="text-[#6F6F6F] text-[16px] font-[500]">REASON</p>
             </div>
-            <div className="col-span-2 my-auto">
+            <div className="col-span-1 my-auto">
               <p className="text-[#6F6F6F] text-[16px] font-[500]">DATE</p>
             </div>
-            <div className="col-span-2 my-auto">
+            <div className="col-span-1 my-auto">
               <p className="text-[#6F6F6F] text-[16px] font-[500]">TIME</p>
             </div>
-            <div className="col-span-2 my-auto">
+            <div className="col-span-1 my-auto">
               <p className="text-[#6F6F6F] text-[16px] font-[500]">ACTION</p>
             </div>
           </div>
@@ -57,17 +57,17 @@ import SupportCallDeleteButton from "../SupportCallDeleteButton";
                       {index + 1}
                     </p>
                   </div>
-                  <div className="col-span-2 my-auto">
-                    <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500]">
+                  <div className="col-span-3 my-auto px-1">
+                    <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500] truncate">
                       {call.title}
                     </p>
                   </div>
-                  <div className="col-span-2 my-auto">
-                    <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500]">
+                  <div className="col-span-4 my-auto px-1">
+                    <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500] truncate">
                       {call.reason}
                     </p>
                   </div>
-                  <div className="col-span-2 my-auto">
+                  <div className="col-span-1 my-auto">
                     <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500]">
                       {new Date(call.date)
                         .toLocaleDateString("en-GB", {
@@ -78,13 +78,13 @@ import SupportCallDeleteButton from "../SupportCallDeleteButton";
                         .replace(" ", ", ")}
                     </p>
                   </div>
-                  <div className="col-span-2 my-auto">
+                  <div className="col-span-1 my-auto">
                     <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500]">
                       {call.time}
                     </p>
                   </div>
   
-                  <div className="col-span-2 my-auto">
+                  <div className="col-span-1 my-auto">
                     <div className="flex gap-4">
                       <div
                         //   onClick={() => setOpenAddModal(true)}
