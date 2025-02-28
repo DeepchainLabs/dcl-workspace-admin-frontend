@@ -18,15 +18,11 @@ async function SupportTicketsTableAdmin({
   params: Promise<{ user: string; workspace: string }>;
 }) {
   const param = await params;
-  const tickets = await getSupportTickets().catch((error) => {
+  const tickets: any = await getSupportTickets().catch((error) => {
     console.log(error);
     return extractError(error);
   });
   if (typeof tickets === "string") return <ErrorAllert message={tickets} />;
-  const sortedTickets = (tickets as Ticket[]).sort(
-    (a: Ticket, b: Ticket) =>
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
 
   return (
     <div className="overflow-x-auto mt-6">
@@ -58,7 +54,7 @@ async function SupportTicketsTableAdmin({
             </p>
           </div>
         ) : (
-          sortedTickets.map((item: Ticket, index) => (
+          tickets.map((item: Ticket, index: number) => (
             <Link
               href={getRoute(
                 param.user,
@@ -104,10 +100,34 @@ async function SupportTicketsTableAdmin({
               <div className="my-auto">
                 <TypeBadge text={item.priority || "Normal"} />
               </div>
-              <div className="my-auto truncate">
-                <p className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500] truncate">
-                  {item.assignee?.first_name || "-"}
-                </p>
+              <div className="my-auto flex gap-2">
+                <div className="text-[#292D32] group-hover:text-[#2377FC] text-[16px] font-[500] truncate">
+                  {item.assignee ? item.assignee.first_name : "-"}
+                </div>
+                {item.unread_count > 0 && (
+                  <div>
+                    <svg
+                      className="my-auto cursor-pointer"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle cx="10" cy="10" r="10" fill="red" />
+                      <text
+                        x="10"
+                        y="15"
+                        textAnchor="middle"
+                        fill="white"
+                        fontSize="10"
+                        fontWeight="bold"
+                      >
+                        {item.unread_count}
+                      </text>
+                    </svg>
+                  </div>
+                )}
               </div>
             </Link>
           ))

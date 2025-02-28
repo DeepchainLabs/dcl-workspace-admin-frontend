@@ -13,6 +13,7 @@ export interface Ticket {
   created_at: string;
   updated_at: string;
   attachment: string;
+  unread_count: number;
 };
 
 export interface AvailableTimeSlot {

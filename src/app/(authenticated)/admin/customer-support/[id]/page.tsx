@@ -6,7 +6,7 @@ import { Ticket } from "@/interfaces/Support";
 import { extractError } from "@/utils/errors.utils";
 import Image from "next/image";
 import React from "react";
-import { getTicketById } from "@/resources/support/customer-support.service";
+import { getTicketById, markMessageAsRead } from "@/resources/support/customer-support.service";
 import { getEmployess } from "@/resources/settings/employee.service";
 import ProfileImage from "@/components/Common/ProfileImage";
 
@@ -26,6 +26,9 @@ export default async function CustomerSupportDetails({
     return extractError(error);
   });
   if (typeof users === "string") return <ErrorAllert message={users} />;
+
+  // read the messages
+  await markMessageAsRead({ ticket_id: ticket._id, tenant: ticket.tenant._id });
 
   return (
     <div>
