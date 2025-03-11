@@ -9,6 +9,7 @@ import {
   PlatformManagementIcon,
   PaymentManagementIcon,
   SubscriptionIcon,
+  BugPanelIcon,
 } from "@/svg/Menu/MenuIcons";
 
 const MenuItems = [
@@ -41,6 +42,14 @@ const MenuItems = [
     title: "Customer Support",
     icon: CustomerSupportIcon,
     route: "/admin/customer-support",
+    isExpandable: false,
+    subItems: [],
+    permission: "",
+  },
+  {
+    title: "Bugs",
+    icon: BugPanelIcon,
+    route: "/admin/bugs",
     isExpandable: false,
     subItems: [],
     permission: "",
