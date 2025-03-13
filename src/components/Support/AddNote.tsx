@@ -1,13 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import React, { useActionState, useEffect, useState } from "react";
+import { useFormStatus } from "react-dom";
 import toast from "react-hot-toast";
 import SupportNotes from "./SupportNotes";
 import { handleCreateNote } from "@/app/(authenticated)/admin/customer-support/[id]/action";
 
 export default function AddTicketNote({ show, setShow, ticket }: any) {
   const [isOpen, setIsOpen] = useState(false);
-  const [state, action] = useFormState(handleCreateNote, {});
+  const [state, action] = useActionState(handleCreateNote, {});
 
   const resetNoteInput = () => {
     if (noteTextRef.current) noteTextRef.current.value = "";

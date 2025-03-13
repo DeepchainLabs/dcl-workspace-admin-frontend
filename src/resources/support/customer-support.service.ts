@@ -19,12 +19,13 @@ export const getMySupportTickets = async () => {
 export const getSupportTickets = async () => {
   const res = await getFetch(
     {
-      url: "/admin-support/ticket?relations=assignee,createdBy,tenant",
+      url: "/admin-support/ticket?sort=-last_message_at&relations=assignee,createdBy,tenant&include_unread_count=true",
       method: "get",
+      tags: ["support_tickets_admin"]
     },
     z.array(z.object({})),
   );
-  // console.log(res);
+  console.log(res);
   return res;
 };
 export const getSupportTicketsOverview = async () => {
@@ -241,5 +242,15 @@ export const createChat = async (data: { message: string; ticket: string, tenant
 export const revalidateSupportChats = async () => {
   revalidateTag("get_support_chat");
   console.log("============================================================Revalidate Support Chats");
+};
+
+export const markMessageAsRead = async (data: { ticket_id: string, tenant: string }) => {
+  const res = await getFetch(
+    { url: "/admin-support/ticket/mark-messages-as-read", method: "post", data },
+    z.array(z.object({})),
+  );
+  //console.log(res);
+  // revalidateTag("support_tickets_admin");
+  return res;
 };
 

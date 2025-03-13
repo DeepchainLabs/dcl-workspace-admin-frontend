@@ -1,3 +1,4 @@
+import ClaimSvg from "@/svg/Claim/ClaimSvg";
 import {
   CustomerSupportIcon,
   DashboardIcon,
@@ -9,6 +10,8 @@ import {
   PlatformManagementIcon,
   PaymentManagementIcon,
   SubscriptionIcon,
+  BugPanelIcon,
+  ClaimlIcon,
 } from "@/svg/Menu/MenuIcons";
 
 const MenuItems = [
@@ -41,6 +44,22 @@ const MenuItems = [
     title: "Customer Support",
     icon: CustomerSupportIcon,
     route: "/admin/customer-support",
+    isExpandable: false,
+    subItems: [],
+    permission: "",
+  },
+  {
+    title: "Bugs",
+    icon: BugPanelIcon,
+    route: "/admin/bugs",
+    isExpandable: false,
+    subItems: [],
+    permission: "",
+  },
+  {
+    title: "Claims",
+    icon: ClaimlIcon,
+    route: "/admin/claims",
     isExpandable: false,
     subItems: [],
     permission: "",

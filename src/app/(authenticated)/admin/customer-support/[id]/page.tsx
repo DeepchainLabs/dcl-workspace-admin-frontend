@@ -6,8 +6,9 @@ import { Ticket } from "@/interfaces/Support";
 import { extractError } from "@/utils/errors.utils";
 import Image from "next/image";
 import React from "react";
-import { getTicketById } from "@/resources/support/customer-support.service";
+import { getTicketById, markMessageAsRead } from "@/resources/support/customer-support.service";
 import { getEmployess } from "@/resources/settings/employee.service";
+import ProfileImage from "@/components/Common/ProfileImage";
 
 export default async function CustomerSupportDetails({
   params,
@@ -26,6 +27,9 @@ export default async function CustomerSupportDetails({
   });
   if (typeof users === "string") return <ErrorAllert message={users} />;
 
+  // read the messages
+  await markMessageAsRead({ ticket_id: ticket._id, tenant: ticket.tenant._id });
+
   return (
     <div>
       {/* <RevalidateSupportChatEvent /> */}
@@ -43,19 +47,15 @@ export default async function CustomerSupportDetails({
               <div className="border-b border-[#E5E9EB] flex justify-between p-4">
                 <div className="flex gap-3">
                   <div className="w-[40px] h-[40px] relative my-auto">
-                    <Image
-                      className="rounded-full border border-[#E5E9EB]"
-                      src="/images/dummy_user.png"
-                      fill
-                      alt="user"
-                    />
+                    <ProfileImage user={ticket.createdBy?._id} />
                   </div>
                   <div className="space-y-0">
                     <p className="text-[#292D32] text-[16px] font-[500]">
                       {ticket.createdBy?.first_name}
                     </p>
                     <p className="text-[#A5B2CA] text-[16px] font-[500]">
-                      Created a ticket | {ticket.category} | {ticket.tenant.name}
+                      Created a ticket | {ticket.category} |{" "}
+                      {ticket.tenant.name}
                     </p>
                   </div>
                 </div>
@@ -118,12 +118,7 @@ export default async function CustomerSupportDetails({
             <div className="flex gap-2 mt-6  pl-6">
               <div className="w-[50px] my-auto">
                 <div className="w-[40px] h-[40px] relative">
-                  <Image
-                    className="rounded-full border border-[#E5E9EB]"
-                    src="/images/dummy_user.png"
-                    fill
-                    alt="user"
-                  />
+                  <ProfileImage user={ticket.createdBy?._id} />
                 </div>
               </div>
               <div className="space-y-0">

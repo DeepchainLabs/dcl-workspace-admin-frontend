@@ -142,3 +142,28 @@ export const myCapabilities = async () => {
   );
   return res;
 };
+
+export const getUserDetails = async (user: string) => {
+  const res = await getFetch(
+    {url: `/users/details/${user}`},
+    z.object({
+      _id: z.string(),
+      email: z.string(),
+      username: z.string(),
+      require_2fa_for_login: z.boolean(),
+      first_name: z.string(),
+      last_name: z.string(),
+      phone: z.string(),
+      email_verified_at: z.string(),
+      created_at: z.string(),
+      updated_at: z.string(),
+      image: z.string(),
+      image_extension: z.string(),
+      image_size: z.number(),
+      image_url: z.string(),
+    })
+  );
+  return res;
+}
+
+

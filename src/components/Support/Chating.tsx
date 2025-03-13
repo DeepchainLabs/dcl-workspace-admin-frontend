@@ -12,6 +12,7 @@ import {
 import toast from "react-hot-toast";
 import useSocketEvent from "@/hooks/useSocketEvent";
 import { SupportChat, Ticket } from "@/interfaces/Support";
+import ProfileImage from "../Common/ProfileImage";
 export default function Chating({ ticket }: { ticket: Ticket }) {
   const { user } = useParams();
   // const { workspace } = useParams();
@@ -24,7 +25,11 @@ export default function Chating({ ticket }: { ticket: Ticket }) {
       toast.error("Type something first");
       return;
     }
-    await createChat({ message, ticket: ticket._id, tenant: ticket.tenant._id });
+    await createChat({
+      message,
+      ticket: ticket._id,
+      tenant: ticket.tenant._id,
+    });
     setMessage("");
     await getSupportChat();
   };
@@ -81,12 +86,7 @@ export default function Chating({ ticket }: { ticket: Ticket }) {
                 <div className="flex gap-2">
                   <div className="w-[34px] my-auto">
                     <div className="w-[30px] h-[30px] relative">
-                      <Image
-                        className="rounded-full"
-                        src="/images/dummy_user.png"
-                        fill
-                        alt="user"
-                      />
+                      <ProfileImage user={user as string} />
                     </div>
                   </div>
                   <div className="">
@@ -105,12 +105,7 @@ export default function Chating({ ticket }: { ticket: Ticket }) {
               <div key={index} className="flex gap-2">
                 <div className="w-[34px] my-auto">
                   <div className="w-[30px] h-[30px] relative">
-                    <Image
-                      className="rounded-full"
-                      src="/images/dummy_user.png"
-                      fill
-                      alt="user"
-                    />
+                    <ProfileImage user={chat.sender?._id ?? chat.sender ?? ""} />
                   </div>
                 </div>
                 <div className="">

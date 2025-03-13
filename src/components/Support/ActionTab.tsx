@@ -24,7 +24,7 @@ function ActionTab({ ticket }: { ticket: Ticket }) {
       <div className="mt-8 flex justify-between">
         <div className="">
           <div className="flex gap-2">
-            <div
+            {/* <div
               onClick={() => setOpenForward(true)}
               className="bg-[#F0F5FF] rounded-[8px] px-3 py-1.5 flex gap-2 cursor-pointer"
             >
@@ -34,7 +34,7 @@ function ActionTab({ ticket }: { ticket: Ticket }) {
               <p className="my-auto text-[#2377FC] text-[16px] font-[500]">
                 Forward
               </p>
-            </div>
+            </div> */}
             <div
               onClick={() => setOpenNotes(true)}
               className="bg-[#FFFFFF] border border-[#E5E9EB] rounded-[8px] px-3 py-1.5 flex gap-2 cursor-pointer"

@@ -1,0 +1,25 @@
+export type TenantResponse = {
+    _id: string;
+    name: string;
+    identifier: string;
+    industry: string;
+    team_size_min: number;
+    team_size_max: number;
+    country: string;
+    time_zone_utc_offset: number;
+    logo_url: string;
+    logo_extension: string;
+    logo_size: number;
+    created_by: string;
+    subscription: any | null;
+    social_urls: string[];
+    is_personal: boolean;
+    is_active: boolean;
+    auto_renew_enabled: boolean;
+    default_payment_provider: string | null;
+    default_payment_id: string | null;
+    created_at: string;
+    updated_at: string;
+    __v: number;
+    stripe_customer_id: string;
+};
