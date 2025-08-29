@@ -12,6 +12,7 @@ import {
   SubscriptionIcon,
   BugPanelIcon,
   ClaimlIcon,
+  systemLogIcon,
 } from "@/svg/Menu/MenuIcons";
 
 const MenuItems = [
@@ -85,6 +86,14 @@ const MenuItems = [
         permission: "",
       },
     ],
+    permission: "",
+  },
+  {
+    title: "System Logs",
+    icon: systemLogIcon,
+    route: "/admin/system-logs",
+    isExpandable: false,
+    subItems: [],
     permission: "",
   },
 

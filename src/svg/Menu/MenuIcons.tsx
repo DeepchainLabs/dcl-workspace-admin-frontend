@@ -1596,3 +1596,22 @@ export const SettingsIcon = () => (
     />
   </svg>
 );
+
+export const systemLogIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7.56 6.44L9 5l3 3-3 3-1.44-1.44.56-.56H2.5V7h5.62l-.56-.56Z"
+      fill="#6F6F6F"
+    />
+    <path
+      d="M9.5 2h3.75c.966 0 1.75.784 1.75 1.75v8.5c0 .966-.784 1.75-1.75 1.75H9.5a.75.75 0 0 1 0-1.5h3.75a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25H9.5a.75.75 0 0 1 0-1.5Z"
+      fill="#6F6F6F"
+    />
+  </svg>
+);
