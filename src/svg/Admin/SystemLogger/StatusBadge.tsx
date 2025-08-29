@@ -118,59 +118,60 @@ const iconMap = {
   debug: Debug,
 };
 
-export default function StatusBadge({
-  text,
-}: {
-  text: "Failed" | "Warning" | "Debug" | "Info";
-}) {
+function getCategoryFromStatusCode(status_code: number): keyof typeof iconMap {
+  if (status_code >= 400) return "failed";
+  if (status_code >= 300) return "warning";
+  if (status_code >= 200) return "info";
+  return "debug";
+}
+
+export default function StatusBadge({ status_code }: { status_code: number }) {
+  const category = getCategoryFromStatusCode(status_code);
+
   let bgColor = "bg-[#FEE2E2]";
   let borderColor = "border-[#991B1B]";
   let textColor = "text-[#991B1B]";
   let iconColor = "#991B1B";
+  let text = "Unknown";
 
-  const Icon =
-    iconMap[text.toLowerCase() as keyof typeof iconMap] || iconMap.failed;
-
-  switch (text.toLowerCase()) {
+  switch (category) {
     case "warning":
+      text = "Warning";
       bgColor = "bg-[#FFEFD6]";
       borderColor = "border-[#FF9F00]";
       textColor = "text-[#92400E]";
       iconColor = "#D97706";
       break;
     case "failed":
+      text = "Failed";
       bgColor = "bg-[#FEE2E2]";
       borderColor = "border-[#991B1B]";
       textColor = "text-[#991B1B]";
       iconColor = "#D97706";
       break;
     case "debug":
+      text = "Debug";
       bgColor = "bg-[#F2F9FE]";
       borderColor = "border-[#4157FE]";
       textColor = "text-[#4157FE]";
       iconColor = "#2563EB";
       break;
     case "info":
+      text = "Info";
       bgColor = "bg-[#EAF8FF]";
       borderColor = "border-[#3FB8F7]";
       textColor = "text-[#1271A2]";
       iconColor = "#0284C7";
       break;
-    default:
-      bgColor = "bg-[#FEE2E2]";
-      borderColor = "border-[#991B1B]";
-      textColor = "text-[#991B1B]";
-      iconColor = "#991B1B";
-      break;
   }
 
-  console.log("fff", bgColor, borderColor);
+  const Icon = iconMap[category];
+
   return (
     <span
-      className={`inline-flex items-center gap-2 px-3 py-1 rounded-md  text-sm font-medium ${bgColor}  border-2 ${borderColor} ${textColor}`}
+      className={`inline-flex items-center gap-2 px-3 py-1 rounded-md text-sm font-medium ${bgColor} border-2 ${borderColor} ${textColor}`}
     >
-      {/* <Info /> */}
-      <Icon />
+      <Icon color={iconColor} />
       {text}
     </span>
   );

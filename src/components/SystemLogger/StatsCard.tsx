@@ -19,6 +19,13 @@ const iconMap = {
   bug: BugIconSVG,
 };
 
+function formatCount(count: number) {
+  if (count >= 1_000_000_000) return (count / 1_000_000_000).toFixed(1) + "B";
+  if (count >= 1_000_000) return (count / 1_000_000).toFixed(1) + "M";
+  if (count >= 1_000) return (count / 1_000).toFixed(1) + "K";
+  return count.toString();
+}
+
 export default function StatsCard({
   label,
   count,
@@ -34,7 +41,10 @@ export default function StatsCard({
         </div>
       </div>
       <div className="self-start">
-        <div className={`text-3xl font-semibold text-[${color}]`}>{count}</div>
+        <div className={`text-3xl font-semibold text-[${color}]`}>
+          {" "}
+          {formatCount(count)}
+        </div>
         <div className="text-sm text-gray-600">{label}</div>
       </div>
     </div>
