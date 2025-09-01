@@ -4,12 +4,12 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'api.minio.deepchainlabs.com',
+        protocol: "https",
+        hostname: "api.minio.deepchainlabs.com",
       },
       {
-        protocol: 'https',
-        hostname: 'platform.deepchainlabs.com',
+        protocol: "https",
+        hostname: "platform.deepchainlabs.com",
       },
     ],
   },
