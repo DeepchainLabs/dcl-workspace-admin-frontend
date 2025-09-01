@@ -46,7 +46,9 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
                 "no status"
               )}
             </td>
-            <td className="p-3">{rowData.path ?? "no path"}</td>
+            <td className="p-3 break-words max-w-[200px]">
+              {rowData.path ?? "no path"}
+            </td>
             <td className="p-3">
               {rowData.created_at
                 ? formatDate(rowData.created_at)

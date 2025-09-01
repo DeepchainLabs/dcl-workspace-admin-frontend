@@ -1,5 +1,3 @@
-// import { Filter } from "lucide-react";
-
 import FilterIconSVG from "@/svg/Admin/SystemLogger/FilterIconSVG";
 
 export default function FilterButton() {

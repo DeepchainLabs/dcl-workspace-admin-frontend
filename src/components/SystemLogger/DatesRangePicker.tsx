@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface DateRangePickerProps {
   onChange: (range: { from: string; to: string }) => void;
+  // onResetHandled?: () => void;
+  resetTodayCounter?: number;
 }
 
 function formatRange(from: Date, to: Date) {
@@ -18,7 +20,10 @@ function formatRange(from: Date, to: Date) {
   };
 }
 
-export default function DateRangePicker({ onChange }: DateRangePickerProps) {
+export default function DateRangePicker({
+  onChange,
+  resetTodayCounter,
+}: DateRangePickerProps) {
   const RANGE_DAYS = 5;
 
   const [startDate, setStartDate] = useState(new Date());
@@ -62,6 +67,21 @@ export default function DateRangePicker({ onChange }: DateRangePickerProps) {
       updateRange(new Date(), new Date());
     }
   };
+
+  // useEffect(() => {
+  //   if (resetToday) {
+  //     setIsTodayActive(false);
+  //     onChange({ from: "", to: "" });
+  //     onResetHandled?.();
+  //   }
+  // }, [resetToday]);
+
+  useEffect(() => {
+    if (resetTodayCounter !== undefined) {
+      setIsTodayActive(false);
+      onChange({ from: "", to: "" });
+    }
+  }, [resetTodayCounter]);
 
   return (
     <div className="flex items-center gap-2">
