@@ -4,29 +4,6 @@ import { getFetch } from "@/config/axios-config";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
-export const createBugReport = async (data: {
-  title: string;
-  description: string;
-  module?: string;
-  stepsToReproduce?: string;
-  expectedResult?: string;
-  actualResult?: string;
-  operatingSystem?: string;
-  browser?: string;
-  screenSize?: string;
-  pageLink?: string;
-  attachments?: File[];
-  reporterEmail?: string;
-  reporterName?: string;
-}) => {
-  const res = await getFetch(
-    { url: `/bug-report`, method: "post", data, dataType: "FormData" },
-    z.array(z.object({}))
-  );
-  revalidateTag("reported-bugs");
-  return res;
-};
-
 export const getRequestLogs = async (data: { page: number; limit: number }) => {
   const res = await getFetch(
     {
