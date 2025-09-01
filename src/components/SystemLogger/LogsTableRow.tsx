@@ -5,6 +5,7 @@ import CopyIcon from "@/svg/Note/CopyIcon";
 import EyeIconSVG from "@/svg/Admin/SystemLogger/EyeIconSVG";
 import StatusBadge from "@/svg/Admin/SystemLogger/StatusBadge";
 import ArrowDownIcon from "@/svg/Admin/SystemLogger/DownArrowSVG";
+import toast from "react-hot-toast";
 
 export interface RowProps {
   rowData: Record<string, any>;
@@ -31,6 +32,14 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
     null,
     2
   );
+
+  const handleCopy = () => {
+    if (rowData?.request_id) {
+      navigator.clipboard.writeText(rowData.request_id).then(() => {
+        toast.success("Request ID copied to clipboard");
+      });
+    }
+  };
 
   const row = rowData.data ?? rowData;
 
@@ -59,10 +68,17 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
               className="p-3 flex items-center gap-2 cursor-pointer"
               // onClick={() => setShowCode(!showCode)}
             >
-              {rowData.request_id} <CopyIcon />
-            </td>
-            <td className="p-3">
-              <EyeIconSVG />
+              {/* {rowData.request_id} <CopyIcon /> */}
+              <td className="p-3 flex items-center gap-2">
+                {rowData.request_id}
+                <button
+                  onClick={handleCopy}
+                  className="cursor-pointer hover:opacity-70"
+                  title="Copy Request ID"
+                >
+                  <CopyIcon />
+                </button>
+              </td>
             </td>
           </>
         )}
@@ -86,9 +102,6 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
               {rowData.created_at
                 ? formatDate(rowData.created_at)
                 : "unknown time"}
-            </td>
-            <td className="p-3">
-              <EyeIconSVG />
             </td>
           </>
         )}
@@ -119,9 +132,6 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
               {rowData.created_at
                 ? formatDate(rowData.created_at)
                 : "unknown time"}
-            </td>
-            <td className="p-3">
-              <EyeIconSVG />
             </td>
           </>
         )}

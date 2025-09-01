@@ -40,14 +40,12 @@ const columnsMap: Record<"Requests" | "Errors" | "Queries", Column[]> = {
     { label: "Timestamp", key: "timestamp" },
     { label: "Execution Time (ms)", key: "execution_time" },
     { label: "Request ID", key: "request_id" },
-    { label: "Action", key: "action" },
   ],
   Errors: [
     { label: "Error ID", key: "_id" },
     { label: "Request ID", key: "request_id" },
     { label: "Error", key: "error" },
     { label: "Timestamp", key: "timestamp" },
-    { label: "Action", key: "action" },
   ],
   Queries: [
     { label: "Query ID", key: "_id" },
@@ -57,7 +55,6 @@ const columnsMap: Record<"Requests" | "Errors" | "Queries", Column[]> = {
     { label: "Populations", key: "populations" },
     { label: "Execution Time (ms)", key: "execution_time" },
     { label: "Timestamp", key: "timestamp" },
-    { label: "Action", key: "action" },
   ],
 };
 
@@ -214,7 +211,6 @@ export default function LogsTable({
                 });
         }
       }
-      console.log("response", res);
       const resData = res || [];
       const normalizedData = Array.isArray(resData)
         ? resData
@@ -257,10 +253,6 @@ export default function LogsTable({
 
   const columns = columnsMap[activeTab];
 
-  console.log("data", data);
-
-  console.log("search", search);
-
   return (
     <div>
       <div className="overflow-x-auto rounded-lg border bg-white min-h-[300px]">
@@ -282,8 +274,6 @@ export default function LogsTable({
                   <td colSpan={columns.length} className="p-3">
                     <div className="flex flex-col">
                       <div className="h-10 bg-gray-200 rounded-md animate-pulse w-full" />
-                      {/* <div className="h-4 bg-gray-200 rounded-md animate-pulse w-3/4" /> */}
-                      {/* <div className="h-4 bg-gray-200 rounded-md animate-pulse w-1/2" /> */}
                     </div>
                   </td>
                 </tr>
