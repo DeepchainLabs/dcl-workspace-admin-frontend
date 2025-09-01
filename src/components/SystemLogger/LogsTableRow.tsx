@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { CopyBlock, atomOneLight } from "react-code-blocks";
 import CopyIcon from "@/svg/Note/CopyIcon";
-import EyeIconSVG from "@/svg/Admin/SystemLogger/EyeIconSVG";
 import StatusBadge from "@/svg/Admin/SystemLogger/StatusBadge";
 import ArrowDownIcon from "@/svg/Admin/SystemLogger/DownArrowSVG";
 import toast from "react-hot-toast";
