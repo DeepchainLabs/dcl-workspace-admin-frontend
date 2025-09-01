@@ -71,7 +71,7 @@ export default function LogsTable({
   dateRange?: { from: string; to: string } | null;
   setSearch: (v: string) => void;
 }) {
-  const limit = 10;
+  const limit = 20;
   const [data, setData] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -89,7 +89,7 @@ export default function LogsTable({
 
   const [totalPages, setTotalPages] = useState(Math.ceil(totalLogs / limit));
 
-  console.log("ffff", from, to);
+  // console.log("ffff", from, to);
 
   // const fetchLogs = async (pageNumber: number) => {
   //   setLoading(true);

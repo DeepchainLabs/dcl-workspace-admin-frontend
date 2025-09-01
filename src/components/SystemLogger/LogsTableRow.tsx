@@ -89,7 +89,7 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
               className="p-3 flex items-center gap-2 cursor-pointer"
               onClick={() => setShowCode(!showCode)}
             >
-              {rowData?.request_snapshot?.request_id ?? "n/a"}
+              {rowData?.request_snapshot?.request_id ?? "N/A"}
               <ArrowDownIcon
                 className={`ml-1 transition-transform duration-300 ${
                   showCode ? "rotate-180" : ""
@@ -146,7 +146,7 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
               className="overflow-auto p-2  bg-gray-50 
              text-sm font-mono leading-relaxed max-w-full"
               style={{
-                maxHeight: "300px",
+                maxHeight: "600px",
                 whiteSpace: "pre-wrap",
                 wordBreak: "break-word",
               }}
