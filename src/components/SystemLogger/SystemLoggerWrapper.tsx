@@ -17,6 +17,7 @@ export default function SystemLoggerWrapper({
   const [activeTab, setActiveTab] = useState<"Requests" | "Errors" | "Queries">(
     "Requests"
   );
+  const [search, setSearch] = useState("");
 
   return (
     <div className="p-6 space-y-6">
@@ -28,11 +29,13 @@ export default function SystemLoggerWrapper({
           <DateRangePicker />
         </div>
         <div className="flex gap-2">
-          <SearchBar />
+          {/* <SearchBar /> */}
+          <SearchBar value={search} onChange={(val) => setSearch(val)} />
           <FilterButton />
         </div>
       </div>
-      <LogsTable counts={counts} activeTab={activeTab} />
+      {/* <LogsTable counts={counts} activeTab={activeTab} /> */}
+      <LogsTable counts={counts} activeTab={activeTab} search={search} />
     </div>
   );
 }

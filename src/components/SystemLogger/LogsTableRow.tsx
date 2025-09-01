@@ -31,6 +31,8 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
     2
   );
 
+  const row = rowData.data ?? rowData;
+
   return (
     <>
       <tr className="border-b">

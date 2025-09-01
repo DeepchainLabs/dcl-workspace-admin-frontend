@@ -72,22 +72,41 @@ export const getAllLogsCounts = async () => {
   return res;
 };
 
-export const updateReportedBugs = async (
-  id: string,
-  data: {
-    status?: string;
-    priority?: string;
-    verified_by?: string;
-    assign_to?: string;
-    type?: string;
-  }
-) => {
-  console.log(data);
-  const res = await getFetch(
-    { url: `/bug-report/${id}`, method: "patch", data },
-    z.array(z.object({}))
-  );
-  console.log(res);
-  revalidateTag("reported-bugs");
+export const getRequestLogsSearch = async (data: {
+  searchTerm: string;
+  page: number;
+  limit: number;
+}) => {
+  const res = await getFetch({
+    url: `/system-logs/search-requests?searchTerm=${data.searchTerm}&page=${data.page}&limit=${data.limit}`,
+    method: "get",
+    //   tags: ["reported-bugs"],
+  });
+  return res;
+};
+
+export const getQueryLogsSearch = async (data: {
+  searchTerm: string;
+  page: number;
+  limit: number;
+}) => {
+  const res = await getFetch({
+    url: `/system-logs/search-queries?searchTerm=${data.searchTerm}&page=${data.page}&limit=${data.limit}`,
+    method: "get",
+    //   tags: ["reported-bugs"],
+  });
+  return res;
+};
+
+export const getErrorLogsSearch = async (data: {
+  searchTerm: string;
+  page: number;
+  limit: number;
+}) => {
+  const res = await getFetch({
+    url: `/system-logs/search-errors?searchTerm=${data.searchTerm}&page=${data.page}&limit=${data.limit}`,
+    method: "get",
+    //   tags: ["reported-bugs"],
+  });
   return res;
 };

@@ -1,8 +1,11 @@
 "use client";
 import {
   getErrorLogsAction,
+  getErrorLogsSearchAction,
   getQueryLogsAction,
+  getQueryLogsSearchAction,
   getRequestLogsAction,
+  getRequestLogsSearchAction,
 } from "@/app/(authenticated)/admin/system-logs/action";
 import LogsTableRow from "./LogsTableRow";
 import { useEffect, useState } from "react";
@@ -58,9 +61,11 @@ const columnsMap: Record<"Requests" | "Errors" | "Queries", Column[]> = {
 export default function LogsTable({
   counts,
   activeTab,
+  search,
 }: {
   counts: LogsCounts;
   activeTab: "Requests" | "Errors" | "Queries";
+  search: string;
 }) {
   const limit = 10;
   const [data, setData] = useState<any[]>([]);
@@ -79,14 +84,43 @@ export default function LogsTable({
     setLoading(true);
     try {
       let res;
-      if (activeTab === "Requests")
-        res = await getRequestLogsAction({ page: pageNumber, limit });
-      if (activeTab === "Errors")
-        res = await getErrorLogsAction({ page: pageNumber, limit });
-      if (activeTab === "Queries")
-        res = await getQueryLogsAction({ page: pageNumber, limit });
+      const searchTerm = search.trim();
+      if (activeTab === "Requests") {
+        res =
+          searchTerm === ""
+            ? await getRequestLogsAction({ page: pageNumber, limit })
+            : await getRequestLogsSearchAction({
+                searchTerm,
+                page: pageNumber,
+                limit,
+              });
+      } else if (activeTab === "Errors") {
+        res =
+          searchTerm === ""
+            ? await getErrorLogsAction({ page: pageNumber, limit })
+            : await getErrorLogsSearchAction({
+                searchTerm,
+                page: pageNumber,
+                limit,
+              });
+      } else if (activeTab === "Queries") {
+        res =
+          searchTerm === ""
+            ? await getQueryLogsAction({ page: pageNumber, limit })
+            : await getQueryLogsSearchAction({
+                searchTerm,
+                page: pageNumber,
+                limit,
+              });
+      }
 
-      setData(res || []);
+      // setData(res || []);
+      const resData = res || [];
+      const normalizedData = Array.isArray(resData)
+        ? resData
+        : resData.data ?? [];
+
+      setData(normalizedData);
     } catch (err) {
       console.error(err);
       setData([]);
@@ -99,13 +133,17 @@ export default function LogsTable({
     setPage(1);
     setData([]);
     fetchLogs(1);
-  }, [activeTab]);
+  }, [activeTab, search]);
 
   useEffect(() => {
     fetchLogs(page);
   }, [page]);
 
   const columns = columnsMap[activeTab];
+
+  console.log("data", data);
+
+  console.log("search", search);
 
   return (
     <div>
@@ -123,16 +161,13 @@ export default function LogsTable({
 
           <tbody>
             {loading ? (
-              Array.from({ length: limit }).map((_, i) => (
+              Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i}>
                   <td colSpan={columns.length} className="p-3">
-                    <div className="flex flex-col gap-2">
-                      {columns.map((_, j) => (
-                        <div
-                          key={j}
-                          className="h-6 bg-gray-200 rounded-md animate-pulse w-full"
-                        />
-                      ))}
+                    <div className="flex flex-col">
+                      <div className="h-10 bg-gray-200 rounded-md animate-pulse w-full" />
+                      {/* <div className="h-4 bg-gray-200 rounded-md animate-pulse w-3/4" /> */}
+                      {/* <div className="h-4 bg-gray-200 rounded-md animate-pulse w-1/2" /> */}
                     </div>
                   </td>
                 </tr>
@@ -156,7 +191,7 @@ export default function LogsTable({
       </div>
 
       {data.length > 0 && (
-        <div className="flex justify-between items-center py-3 px-4 border mt-2">
+        <div className="flex justify-between items-center py-3 px-4">
           <button
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={page === 1}
