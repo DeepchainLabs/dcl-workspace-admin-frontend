@@ -1,6 +1,6 @@
 export default function Pagination() {
   return (
-    <div className="flex justify-between items-center py-3">
+    <div className="flex justify-between items-center py-3 border ">
       <button className="px-3 py-1 border rounded-md text-sm">
         ← Previous
       </button>

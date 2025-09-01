@@ -39,6 +39,30 @@ export const getRequestLogs = async (data: { page: number; limit: number }) => {
   return res;
 };
 
+export const getQueryLogs = async (data: { page: number; limit: number }) => {
+  const res = await getFetch(
+    {
+      url: `/system-logs/queries?page=${data.page}&limit=${data.limit}&sort=-created_at`,
+      method: "get",
+      //   tags: ["reported-bugs"],
+    },
+    z.array(z.object({}))
+  );
+  return res;
+};
+
+export const getErrorLogs = async (data: { page: number; limit: number }) => {
+  const res = await getFetch(
+    {
+      url: `/system-logs/errors?page=${data.page}&limit=${data.limit}&sort=-created_at`,
+      method: "get",
+      //   tags: ["reported-bugs"],
+    },
+    z.array(z.object({}))
+  );
+  return res;
+};
+
 export const getAllLogsCounts = async () => {
   const res = await getFetch({
     url: `/system-logs/count-logs`,

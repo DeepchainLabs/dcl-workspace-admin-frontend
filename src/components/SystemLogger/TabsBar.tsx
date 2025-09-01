@@ -1,11 +1,15 @@
 "use client";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
-const tabs = ["Requests", "Errors", "Queries"];
+const tabs = ["Requests", "Errors", "Queries"] as const;
 
-export default function TabsBar() {
-  const [active, setActive] = useState("Requests");
-
+export default function TabsBar({
+  active,
+  setActive,
+}: {
+  active: (typeof tabs)[number];
+  setActive: Dispatch<SetStateAction<(typeof tabs)[number]>>;
+}) {
   return (
     <div className="flex gap-2">
       {tabs.map((tab) => (
