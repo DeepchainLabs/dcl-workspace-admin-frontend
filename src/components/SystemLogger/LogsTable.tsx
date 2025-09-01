@@ -1,10 +1,13 @@
 "use client";
 import {
   getErrorLogsAction,
+  getErrorLogsByDateAction,
   getErrorLogsSearchAction,
   getQueryLogsAction,
+  getQueryLogsByDateAction,
   getQueryLogsSearchAction,
   getRequestLogsAction,
+  getRequestLogsByDateAction,
   getRequestLogsSearchAction,
 } from "@/app/(authenticated)/admin/system-logs/action";
 import LogsTableRow from "./LogsTableRow";
@@ -62,15 +65,22 @@ export default function LogsTable({
   counts,
   activeTab,
   search,
+  dateRange,
+  setSearch,
 }: {
   counts: LogsCounts;
   activeTab: "Requests" | "Errors" | "Queries";
   search: string;
+  dateRange?: { from: string; to: string } | null;
+  setSearch: (v: string) => void;
 }) {
   const limit = 10;
   const [data, setData] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const from = dateRange?.from;
+  const to = dateRange?.to;
 
   const totalLogs =
     activeTab === "Requests"
@@ -78,49 +88,146 @@ export default function LogsTable({
       : activeTab === "Errors"
       ? counts.errorLogs
       : counts.queryLogs;
-  const totalPages = Math.ceil(totalLogs / limit);
+  // const totalPages = Math.ceil(totalLogs / limit);
+
+  const [totalPages, setTotalPages] = useState(Math.ceil(totalLogs / limit));
+
+  console.log("ffff", from, to);
+
+  // const fetchLogs = async (pageNumber: number) => {
+  //   setLoading(true);
+  //   try {
+  //     let res;
+  //     const searchTerm = search.trim();
+  //     if (activeTab === "Requests") {
+  //       res =
+  //         searchTerm === ""
+  //           ? await getRequestLogsAction({ page: pageNumber, limit })
+  //           : await getRequestLogsSearchAction({
+  //               searchTerm,
+  //               page: pageNumber,
+  //               limit,
+  //             });
+  //     } else if (activeTab === "Errors") {
+  //       res =
+  //         searchTerm === ""
+  //           ? await getErrorLogsAction({ page: pageNumber, limit })
+  //           : await getErrorLogsSearchAction({
+  //               searchTerm,
+  //               page: pageNumber,
+  //               limit,
+  //             });
+  //     } else if (activeTab === "Queries") {
+  //       res =
+  //         searchTerm === ""
+  //           ? await getQueryLogsAction({ page: pageNumber, limit })
+  //           : await getQueryLogsSearchAction({
+  //               searchTerm,
+  //               page: pageNumber,
+  //               limit,
+  //             });
+  //     }
+
+  //     // setData(res || []);
+  //     console.log("res", res);
+  //     const resData = res || [];
+  //     const normalizedData = Array.isArray(resData)
+  //       ? resData
+  //       : resData.data ?? [];
+
+  //     setData(normalizedData);
+
+  //     if (!Array.isArray(res) && typeof res.total === "number") {
+  //       const newTotalPages = Math.ceil(res.total / limit);
+  //       setTotalPages(newTotalPages);
+  //     } else {
+  //       setTotalPages(Math.ceil(totalLogs / limit));
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     setData([]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const fetchLogs = async (pageNumber: number) => {
     setLoading(true);
     try {
       let res;
       const searchTerm = search.trim();
-      if (activeTab === "Requests") {
-        res =
-          searchTerm === ""
-            ? await getRequestLogsAction({ page: pageNumber, limit })
-            : await getRequestLogsSearchAction({
-                searchTerm,
-                page: pageNumber,
-                limit,
-              });
-      } else if (activeTab === "Errors") {
-        res =
-          searchTerm === ""
-            ? await getErrorLogsAction({ page: pageNumber, limit })
-            : await getErrorLogsSearchAction({
-                searchTerm,
-                page: pageNumber,
-                limit,
-              });
-      } else if (activeTab === "Queries") {
-        res =
-          searchTerm === ""
-            ? await getQueryLogsAction({ page: pageNumber, limit })
-            : await getQueryLogsSearchAction({
-                searchTerm,
-                page: pageNumber,
-                limit,
-              });
-      }
 
-      // setData(res || []);
+      const hasDateRange = from && to;
+
+      if (activeTab === "Requests") {
+        if (hasDateRange) {
+          res = await getRequestLogsByDateAction({
+            page: pageNumber,
+            limit,
+            from,
+            to,
+          });
+        } else {
+          res =
+            searchTerm === ""
+              ? await getRequestLogsAction({ page: pageNumber, limit })
+              : await getRequestLogsSearchAction({
+                  searchTerm,
+                  page: pageNumber,
+                  limit,
+                });
+        }
+      } else if (activeTab === "Errors") {
+        if (hasDateRange) {
+          res = await getErrorLogsByDateAction({
+            page: pageNumber,
+            limit,
+            from,
+            to,
+          });
+        } else {
+          res =
+            searchTerm === ""
+              ? await getErrorLogsAction({ page: pageNumber, limit })
+              : await getErrorLogsSearchAction({
+                  searchTerm,
+                  page: pageNumber,
+                  limit,
+                });
+        }
+      } else if (activeTab === "Queries") {
+        if (hasDateRange) {
+          res = await getQueryLogsByDateAction({
+            page: pageNumber,
+            limit,
+            from,
+            to,
+          });
+        } else {
+          res =
+            searchTerm === ""
+              ? await getQueryLogsAction({ page: pageNumber, limit })
+              : await getQueryLogsSearchAction({
+                  searchTerm,
+                  page: pageNumber,
+                  limit,
+                });
+        }
+      }
+      console.log("response", res);
       const resData = res || [];
       const normalizedData = Array.isArray(resData)
         ? resData
         : resData.data ?? [];
 
       setData(normalizedData);
+
+      if (!Array.isArray(res) && typeof res.total === "number") {
+        const newTotalPages = Math.ceil(res.total / limit);
+        setTotalPages(newTotalPages);
+      } else {
+        setTotalPages(Math.ceil(totalLogs / limit));
+      }
     } catch (err) {
       console.error(err);
       setData([]);
@@ -138,6 +245,15 @@ export default function LogsTable({
   useEffect(() => {
     fetchLogs(page);
   }, [page]);
+
+  useEffect(() => {
+    if (from || to) {
+      setSearch("");
+    }
+    setPage(1);
+    setData([]);
+    fetchLogs(1);
+  }, [from, to]);
 
   const columns = columnsMap[activeTab];
 
@@ -160,7 +276,7 @@ export default function LogsTable({
           </thead>
 
           <tbody>
-            {loading ? (
+            {loading && search.trim() === "" ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i}>
                   <td colSpan={columns.length} className="p-3">
@@ -226,6 +342,7 @@ export default function LogsTable({
 
           <button
             onClick={() => setPage((prev) => prev + 1)}
+            disabled={page === totalPages}
             className="px-3 py-1 border rounded-md text-sm hover:bg-gray-100"
           >
             Next →

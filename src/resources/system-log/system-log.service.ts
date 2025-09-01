@@ -110,3 +110,60 @@ export const getErrorLogsSearch = async (data: {
   });
   return res;
 };
+
+export const getRequestLogsByDate = async (data: {
+  page: number;
+  limit: number;
+  from?: string;
+  to?: string;
+}) => {
+  let url = `/system-logs/requests-by-date?page=${data.page}&limit=${data.limit}`;
+
+  if (data.from) url += `&from=${encodeURIComponent(data.from)}`;
+  if (data.to) url += `&to=${encodeURIComponent(data.to)}`;
+
+  const res = await getFetch({
+    url,
+    method: "get",
+  });
+
+  return res;
+};
+
+export const getErrorLogsByDate = async (data: {
+  page: number;
+  limit: number;
+  from?: string;
+  to?: string;
+}) => {
+  let url = `/system-logs/errors-by-date?page=${data.page}&limit=${data.limit}`;
+
+  if (data.from) url += `&from=${encodeURIComponent(data.from)}`;
+  if (data.to) url += `&to=${encodeURIComponent(data.to)}`;
+
+  const res = await getFetch({
+    url,
+    method: "get",
+  });
+
+  return res;
+};
+
+export const getQueryLogsByDate = async (data: {
+  page: number;
+  limit: number;
+  from?: string;
+  to?: string;
+}) => {
+  let url = `/system-logs/queries-by-date?page=${data.page}&limit=${data.limit}`;
+
+  if (data.from) url += `&from=${encodeURIComponent(data.from)}`;
+  if (data.to) url += `&to=${encodeURIComponent(data.to)}`;
+
+  const res = await getFetch({
+    url,
+    method: "get",
+  });
+
+  return res;
+};

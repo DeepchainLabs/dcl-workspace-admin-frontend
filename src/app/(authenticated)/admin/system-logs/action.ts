@@ -3,10 +3,13 @@
 import {
   getAllLogsCounts,
   getErrorLogs,
+  getErrorLogsByDate,
   getErrorLogsSearch,
   getQueryLogs,
+  getQueryLogsByDate,
   getQueryLogsSearch,
   getRequestLogs,
+  getRequestLogsByDate,
   getRequestLogsSearch,
 } from "@/resources/system-log/system-log.service";
 import { extractError } from "@/utils/errors.utils";
@@ -86,6 +89,48 @@ export const getRequestLogsSearchAction = async (data: {
 }) => {
   try {
     const res = await getRequestLogsSearch(data);
+    return res;
+  } catch (err) {
+    throw extractError(err);
+  }
+};
+
+export const getRequestLogsByDateAction = async (data: {
+  page: number;
+  limit: number;
+  from?: string;
+  to?: string;
+}) => {
+  try {
+    const res = await getRequestLogsByDate(data);
+    return res;
+  } catch (err) {
+    throw extractError(err);
+  }
+};
+
+export const getErrorLogsByDateAction = async (data: {
+  page: number;
+  limit: number;
+  from?: string;
+  to?: string;
+}) => {
+  try {
+    const res = await getErrorLogsByDate(data);
+    return res;
+  } catch (err) {
+    throw extractError(err);
+  }
+};
+
+export const getQueryLogsByDateAction = async (data: {
+  page: number;
+  limit: number;
+  from?: string;
+  to?: string;
+}) => {
+  try {
+    const res = await getQueryLogsByDate(data);
     return res;
   } catch (err) {
     throw extractError(err);

@@ -18,6 +18,10 @@ export default function SystemLoggerWrapper({
     "Requests"
   );
   const [search, setSearch] = useState("");
+  const [dateRange, setDateRange] = useState<{
+    from: string;
+    to: string;
+  } | null>(null);
 
   return (
     <div className="p-6 space-y-6">
@@ -26,7 +30,8 @@ export default function SystemLoggerWrapper({
       <div className="flex w-full items-center justify-between">
         <div className="flex w-1/2 justify-between items-center">
           <TabsBar active={activeTab} setActive={setActiveTab} />
-          <DateRangePicker />
+          {/* <DateRangePicker /> */}
+          <DateRangePicker onChange={(range) => setDateRange(range)} />
         </div>
         <div className="flex gap-2">
           {/* <SearchBar /> */}
@@ -35,7 +40,13 @@ export default function SystemLoggerWrapper({
         </div>
       </div>
       {/* <LogsTable counts={counts} activeTab={activeTab} /> */}
-      <LogsTable counts={counts} activeTab={activeTab} search={search} />
+      <LogsTable
+        counts={counts}
+        activeTab={activeTab}
+        search={search}
+        dateRange={dateRange}
+        setSearch={setSearch}
+      />
     </div>
   );
 }
