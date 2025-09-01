@@ -264,7 +264,7 @@ export default function LogsTable({
   return (
     <div>
       <div className="overflow-x-auto rounded-lg border bg-white min-h-[300px]">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm table-auto">
           <thead className="bg-gray-50">
             <tr>
               {columns.map((col) => (
@@ -275,7 +275,7 @@ export default function LogsTable({
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="break-words">
             {loading && search.trim() === "" ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i}>

@@ -4,6 +4,7 @@ import { CopyBlock, atomOneLight } from "react-code-blocks";
 import CopyIcon from "@/svg/Note/CopyIcon";
 import EyeIconSVG from "@/svg/Admin/SystemLogger/EyeIconSVG";
 import StatusBadge from "@/svg/Admin/SystemLogger/StatusBadge";
+import ArrowDownIcon from "@/svg/Admin/SystemLogger/DownArrowSVG";
 
 export interface RowProps {
   rowData: Record<string, any>;
@@ -54,7 +55,7 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
             <td className="p-3">{rowData.execution_time ?? "n/a"}</td>
             <td
               className="p-3 flex items-center gap-2 cursor-pointer"
-              onClick={() => setShowCode(!showCode)}
+              // onClick={() => setShowCode(!showCode)}
             >
               {rowData.request_id} <CopyIcon />
             </td>
@@ -67,8 +68,16 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
         {activeTab === "Errors" && (
           <>
             <td className="p-3">{rowData._id}</td>
-            <td className="p-3">
+            <td
+              className="p-3 flex items-center gap-2 cursor-pointer"
+              onClick={() => setShowCode(!showCode)}
+            >
               {rowData?.request_snapshot?.request_id ?? "n/a"}
+              <ArrowDownIcon
+                className={`ml-1 transition-transform duration-300 ${
+                  showCode ? "rotate-180" : ""
+                }`}
+              />
             </td>
             <td className="p-3">{rowData.error ?? "No error message"}</td>
             <td className="p-3">
@@ -87,7 +96,19 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
             <td className="p-3">{rowData._id}</td>
             <td className="p-3">{rowData.operation ?? "n/a"}</td>
             <td className="p-3">{rowData.collection_name ?? "n/a"}</td>
-            <td className="p-3">{JSON.stringify(rowData.filters ?? "n/a")}</td>
+            <td
+              className="p-3 flex items-center gap-2 cursor-pointer"
+              onClick={() => setShowCode(!showCode)}
+            >
+              {rowData.filters ? "yes" : "n/a"}
+              {rowData.filters && (
+                <ArrowDownIcon
+                  className={`ml-1 transition-transform duration-300 ${
+                    showCode ? "rotate-180" : ""
+                  }`}
+                />
+              )}
+            </td>
             <td className="p-3">
               {JSON.stringify(rowData.populations ?? "n/a")}
             </td>
@@ -107,12 +128,27 @@ export default function LogsTableRow({ rowData, activeTab }: RowProps) {
       {showCode && (
         <tr>
           <td
-            colSpan={activeTab === "Queries" ? 8 : 7}
+            colSpan={activeTab === "Errors" ? 5 : 8}
             className="p-0 bg-gray-50"
           >
-            <div className="overflow-auto p-2" style={{ maxHeight: "300px" }}>
+            <div
+              className="overflow-auto p-2  bg-gray-50 
+             text-sm font-mono leading-relaxed max-w-full"
+              style={{
+                maxHeight: "300px",
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+              }}
+            >
               <CopyBlock
-                text={dummyCode}
+                // text={JSON.stringify(rowData?.request_snapshot, null, 2)}
+                text={
+                  activeTab === "Errors"
+                    ? JSON.stringify(rowData?.request_snapshot ?? {}, null, 2)
+                    : activeTab === "Queries"
+                    ? JSON.stringify(rowData?.filters ?? {}, null, 2)
+                    : ""
+                }
                 language="json"
                 showLineNumbers
                 theme={atomOneLight}
